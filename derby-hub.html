@@ -1,0 +1,2258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kentucky Derby 2026 Betting Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #8B1A1A;
+    --rose-light: #C0392B;
+    --rose-pale: #FDF0F0;
+    --rose-border: #E8C4C4;
+    --gold: #B8860B;
+    --gold-light: #DAA520;
+    --gold-pale: #FDF8E8;
+    --green: #1A5C2A;
+    --green-light: #2D8A44;
+    --green-pale: #EFF8F2;
+    --blue: #1A3A5C;
+    --blue-pale: #EEF4FB;
+    --ink: #1C1A17;
+    --ink-mid: #4A4540;
+    --ink-light: #8A8078;
+    --paper: #FAF8F5;
+    --paper-warm: #F5F0E8;
+    --border: #DDD8D0;
+    --border-light: #EDE8E0;
+    --white: #FFFFFF;
+    --shadow: 0 2px 12px rgba(28,26,23,0.08);
+    --shadow-lg: 0 8px 32px rgba(28,26,23,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: var(--ink);
+    color: var(--white);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+  }
+
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    gap: 1rem;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-rose { font-size: 22px; }
+
+  .logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .logo-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.02em;
+  }
+
+  .badge-live { background: var(--rose-light); color: white; }
+  .badge-posttime { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); }
+  .badge-derby { background: var(--gold); color: white; }
+
+  /* ── MAIN LAYOUT ── */
+  .main-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 4rem;
+  }
+
+  /* ── NAV TABS ── */
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav-tabs::-webkit-scrollbar { display: none; }
+
+  .nav-tab {
+    padding: 12px 20px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--ink-light);
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .nav-tab:hover { color: var(--ink); }
+  .nav-tab.active { color: var(--rose); border-bottom-color: var(--rose); font-weight: 500; }
+
+  /* ── PANELS ── */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── RACE SELECTOR ── */
+  .race-selector {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+
+  .race-pill {
+    padding: 7px 18px;
+    font-size: 13px;
+    border: 1.5px solid var(--border);
+    border-radius: 24px;
+    background: var(--white);
+    cursor: pointer;
+    color: var(--ink-mid);
+    font-weight: 400;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .race-pill:hover { border-color: var(--ink-mid); color: var(--ink); }
+  .race-pill.active { background: var(--ink); color: white; border-color: var(--ink); font-weight: 500; }
+  .race-pill.derby-pill { border-color: var(--rose-border); color: var(--rose); }
+  .race-pill.derby-pill.active { background: var(--rose); color: white; border-color: var(--rose); }
+
+  /* ── RACE SUMMARY CARD ── */
+  .race-summary {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    box-shadow: var(--shadow);
+  }
+
+  .race-summary-left h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .race-summary-left p {
+    font-size: 13px;
+    color: var(--ink-light);
+    line-height: 1.5;
+    max-width: 480px;
+  }
+
+  .race-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .chip {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    background: var(--paper-warm);
+    color: var(--ink-mid);
+    border: 1px solid var(--border-light);
+    font-weight: 400;
+  }
+
+  .chip-gold { background: var(--gold-pale); border-color: #D4B06A; color: var(--gold); }
+  .chip-rose { background: var(--rose-pale); border-color: var(--rose-border); color: var(--rose); }
+
+  .race-summary-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    min-width: 120px;
+  }
+
+  .purse-label { font-size: 11px; color: var(--ink-light); text-align: right; }
+  .purse-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--green);
+    text-align: right;
+  }
+
+  /* ── HORSE GRID ── */
+  .horse-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 12px;
+  }
+
+  .horse-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    cursor: default;
+    box-shadow: var(--shadow);
+  }
+
+  .horse-card:hover { border-color: #C0B8B0; box-shadow: var(--shadow-lg); }
+  .horse-card.scratched { opacity: 0.55; filter: grayscale(0.3); }
+  .horse-card.expert-pick { border-color: var(--rose-border); border-left: 4px solid var(--rose); }
+
+  .horse-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .post-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .horse-name-block { flex: 1; }
+
+  .horse-name {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.3;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .horse-jt {
+    font-size: 12px;
+    color: var(--ink-light);
+    margin-top: 1px;
+  }
+
+  .scr-tag {
+    font-size: 10px;
+    background: #FEEAEA;
+    color: var(--rose);
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-weight: 500;
+    border: 1px solid var(--rose-border);
+  }
+
+  .star-tag {
+    font-size: 10px;
+    background: var(--green-pale);
+    color: var(--green);
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-weight: 500;
+    border: 1px solid #A8D8B8;
+  }
+
+  .odds-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .odds-chip {
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+
+  .odds-fd { background: var(--blue-pale); color: var(--blue); border: 1px solid #B8D0E8; }
+  .odds-ml { background: var(--paper-warm); color: var(--ink-mid); border: 1px solid var(--border-light); }
+  .odds-beyer { background: var(--gold-pale); color: var(--gold); border: 1px solid #D4B06A; }
+  .odds-style { background: var(--paper-warm); color: var(--ink-light); border: 1px solid var(--border-light); }
+
+  .horse-note {
+    font-size: 12px;
+    color: var(--ink-mid);
+    line-height: 1.55;
+  }
+
+  /* ── FULL FIELD NOTE ── */
+  .field-note {
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: var(--paper-warm);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 12px;
+    color: var(--ink-mid);
+    line-height: 1.6;
+  }
+
+  .field-note strong { color: var(--ink); }
+
+  /* ── EXPERTS ── */
+  .experts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 14px;
+    margin-bottom: 1.5rem;
+  }
+
+  .source-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .source-header {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .source-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .source-name { font-size: 12px; font-weight: 500; }
+  .source-sub { font-size: 11px; color: var(--ink-light); }
+
+  .expert-body { padding: 12px 14px; }
+
+  .expert-analyst {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-mid);
+    margin-bottom: 6px;
+  }
+
+  .pick-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+
+  .pick-pos {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+  }
+
+  .pos-badge {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .pos-1 { background: var(--gold); color: white; }
+  .pos-2 { background: #999; color: white; }
+  .pos-3 { background: #B87333; color: white; }
+
+  .expert-note {
+    font-size: 12px;
+    color: var(--ink-mid);
+    line-height: 1.6;
+    margin-top: 6px;
+    border-top: 1px solid var(--border-light);
+    padding-top: 8px;
+  }
+
+  /* ── CONSENSUS BOX ── */
+  .consensus-box {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+
+  .consensus-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+
+  .consensus-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .consensus-card {
+    background: var(--paper-warm);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    min-width: 120px;
+    text-align: center;
+    flex: 1;
+  }
+
+  .con-post { font-size: 10px; color: var(--ink-light); }
+  .con-name { font-size: 13px; font-weight: 500; margin: 3px 0; }
+  .con-count { font-size: 11px; }
+
+  /* ── BET BUILDER ── */
+  .bet-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  @media (max-width: 700px) {
+    .bet-layout { grid-template-columns: 1fr; }
+  }
+
+  .bet-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .bet-card-header {
+    background: var(--ink);
+    color: white;
+    padding: 12px 16px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .bet-type-bar {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+    background: var(--paper-warm);
+  }
+
+  .bet-type-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--ink-mid);
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+    white-space: nowrap;
+  }
+
+  .bet-type-btn:hover { color: var(--ink); }
+  .bet-type-btn.active { color: var(--rose); border-bottom-color: var(--rose); font-weight: 500; }
+
+  .bet-form { padding: 1.1rem 1.25rem; }
+
+  .bet-desc {
+    font-size: 12px;
+    color: var(--ink-light);
+    line-height: 1.6;
+    background: var(--paper-warm);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 14px;
+  }
+
+  .form-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .form-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-mid);
+    min-width: 80px;
+    flex-shrink: 0;
+  }
+
+  .form-select, .form-input {
+    flex: 1;
+    font-size: 13px;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.15s;
+  }
+
+  .form-select:focus, .form-input:focus {
+    outline: none;
+    border-color: var(--rose);
+  }
+
+  .form-input { max-width: 100px; }
+
+  .total-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .add-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    background: var(--rose);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 12px;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.15s;
+    letter-spacing: 0.01em;
+  }
+
+  .add-btn:hover { background: #6A1414; }
+
+  /* ── BET SLIP ── */
+  .slip-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .slip-header {
+    background: var(--paper-warm);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .slip-title {
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .slip-count {
+    font-size: 11px;
+    background: var(--rose);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+
+  .slip-body { padding: 10px; }
+
+  .slip-empty {
+    text-align: center;
+    padding: 2rem;
+    font-size: 13px;
+    color: var(--ink-light);
+  }
+
+  .slip-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--paper-warm);
+    border: 1px solid var(--border-light);
+    margin-bottom: 6px;
+  }
+
+  .slip-item-left { flex: 1; }
+
+  .slip-item-type {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--rose);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .slip-item-horses { font-size: 12px; margin-top: 2px; color: var(--ink); }
+
+  .slip-item-amount {
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .remove-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: var(--ink-light);
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 2px;
+    transition: color 0.1s;
+  }
+
+  .remove-btn:hover { color: var(--rose); }
+
+  .slip-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 10px 4px;
+    font-size: 14px;
+    font-weight: 500;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+  }
+
+  .slip-disclaimer {
+    font-size: 11px;
+    color: var(--ink-light);
+    padding: 6px 10px 10px;
+    line-height: 1.5;
+  }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.45);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .site-footer a { color: rgba(255,255,255,0.6); }
+
+  /* ── SOURCE CREDITS BAR ── */
+  .sources-bar {
+    background: var(--paper-warm);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 0;
+  }
+
+  .sources-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .sources-label {
+    font-size: 11px;
+    color: var(--ink-light);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .source-link {
+    font-size: 11px;
+    color: var(--blue);
+    text-decoration: none;
+    padding: 2px 8px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--white);
+    transition: border-color 0.1s;
+  }
+
+  .source-link:hover { border-color: var(--blue); }
+
+  /* ── EXPANDABLE STATS ── */
+  .expand-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 0 0;
+    margin-top: 8px;
+    border-top: 1px solid var(--border-light);
+    background: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--ink-light);
+    text-align: left;
+    transition: color 0.15s;
+  }
+  .expand-btn:hover { color: var(--rose); }
+  .expand-btn .arrow { font-size: 10px; transition: transform 0.2s; }
+  .expand-btn.open .arrow { transform: rotate(180deg); }
+
+  .stats-panel {
+    display: none;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-light);
+  }
+  .stats-panel.open { display: block; }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .stat-item { background: var(--paper-warm); border-radius: 6px; padding: 6px 8px; }
+  .stat-item-label { font-size: 10px; color: var(--ink-light); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+  .stat-item-val { font-size: 13px; font-weight: 500; color: var(--ink); }
+  .stat-item-val.good { color: var(--green); }
+  .stat-item-val.warn { color: #8B6914; }
+  .stat-item-val.bad  { color: var(--rose); }
+
+  .stat-full { grid-column: 1 / -1; }
+
+  .win-trend {
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .win-trend.good { background: var(--green-pale); color: var(--green); }
+  .win-trend.warn { background: var(--gold-pale);  color: #7A5A00; }
+
+  .key-risk {
+    font-size: 11px;
+    color: var(--ink-mid);
+    background: var(--rose-pale);
+    border-radius: 6px;
+    padding: 6px 10px;
+    border-left: 3px solid var(--rose-border);
+    line-height: 1.5;
+  }
+  .key-risk strong { color: var(--rose); }
+
+  /* ── EXPERT PICKS REDESIGN ── */
+  .ep-race-selector { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:1.25rem; }
+
+  .ep-race-pill {
+    padding: 7px 18px; font-size:13px; border:1.5px solid var(--border);
+    border-radius:24px; background:var(--white); cursor:pointer; color:var(--ink-mid);
+    font-weight:400; transition:all 0.15s; font-family:'DM Sans',sans-serif;
+  }
+  .ep-race-pill:hover { border-color:var(--ink-mid); color:var(--ink); }
+  .ep-race-pill.active { background:var(--ink); color:white; border-color:var(--ink); font-weight:500; }
+  .ep-race-pill.derby-pill { border-color:var(--rose-border); color:var(--rose); }
+  .ep-race-pill.derby-pill.active { background:var(--rose); color:white; border-color:var(--rose); }
+
+  .ep-bet-tabs { display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:1.25rem; overflow-x:auto; scrollbar-width:none; }
+  .ep-bet-tabs::-webkit-scrollbar { display:none; }
+  .ep-bet-tab {
+    padding:9px 16px; font-size:12px; font-weight:400; color:var(--ink-light);
+    border:none; background:none; cursor:pointer; border-bottom:2px solid transparent;
+    margin-bottom:-1px; white-space:nowrap; transition:color 0.15s,border-color 0.15s;
+    font-family:'DM Sans',sans-serif;
+  }
+  .ep-bet-tab:hover { color:var(--ink); }
+  .ep-bet-tab.active { color:var(--rose); border-bottom-color:var(--rose); font-weight:500; }
+
+  .ep-bet-panel { display:none; }
+  .ep-bet-panel.active { display:block; }
+
+  .ep-section-title {
+    font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.07em;
+    color:var(--ink-light); margin-bottom:10px; padding-bottom:6px;
+    border-bottom:1px solid var(--border-light);
+  }
+
+  .ep-picks-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:12px; margin-bottom:1.5rem; }
+
+  .ep-pick-card {
+    background:var(--white); border:1px solid var(--border); border-radius:12px;
+    padding:1rem 1.1rem; box-shadow:var(--shadow);
+  }
+  .ep-pick-card.featured { border-color:var(--rose-border); border-left:4px solid var(--rose); }
+
+  .ep-pick-source { font-size:11px; font-weight:500; color:var(--rose); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px; }
+  .ep-pick-expert { font-size:13px; font-weight:500; margin-bottom:6px; }
+  .ep-pick-detail { font-size:12px; color:var(--ink-mid); line-height:1.6; }
+
+  .ep-horse-tags { display:flex; gap:5px; flex-wrap:wrap; margin:8px 0 4px; }
+  .ep-tag {
+    font-size:11px; padding:3px 9px; border-radius:10px; font-weight:500;
+    background:var(--paper-warm); color:var(--ink-mid); border:1px solid var(--border-light);
+  }
+  .ep-tag.win { background:var(--gold-pale); color:var(--gold); border-color:#D4B06A; }
+  .ep-tag.place { background:var(--blue-pale); color:var(--blue); border-color:#B8D0E8; }
+  .ep-tag.show { background:var(--green-pale); color:var(--green); border-color:#A8D8B8; }
+  .ep-tag.value { background:var(--rose-pale); color:var(--rose); border-color:var(--rose-border); }
+
+  .ep-combo {
+    background:var(--paper-warm); border-radius:8px; padding:8px 10px; margin:8px 0;
+    font-size:12px; line-height:1.7;
+  }
+  .ep-combo strong { color:var(--ink); font-weight:500; }
+  .ep-combo-label { font-size:10px; font-weight:500; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-light); margin-bottom:3px; }
+  .ep-cost { display:inline-block; font-size:10px; padding:1px 7px; border-radius:8px; background:var(--gold-pale); color:var(--gold); font-weight:500; margin-left:6px; }
+
+  .ep-consensus {
+    background:var(--white); border:1px solid var(--border); border-radius:12px;
+    padding:1.1rem 1.25rem; margin-top:1.5rem; box-shadow:var(--shadow);
+  }
+  .ep-consensus h3 { font-family:'Playfair Display',serif; font-size:15px; font-weight:700; margin-bottom:10px; }
+  .ep-con-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:8px; }
+  .ep-con-card {
+    text-align:center; background:var(--paper-warm); border:1px solid var(--border-light);
+    border-radius:10px; padding:9px 10px;
+  }
+  .ep-con-post { font-size:10px; color:var(--ink-light); }
+  .ep-con-name { font-size:13px; font-weight:500; margin:2px 0; }
+  .ep-con-odds { font-size:11px; }
+
+  /* ── SHARP MONEY PANEL ── */
+  .sm-header {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 8px; margin-bottom: 1.25rem;
+  }
+  .sm-header-left h2 { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; margin-bottom:2px; }
+  .sm-header-left p  { font-size:12px; color:var(--ink-light); line-height:1.5; }
+  .sm-last-updated   { font-size:11px; color:var(--ink-light); }
+  .sm-pulse { display:inline-block; width:8px; height:8px; border-radius:50%; background:#e24b4a; margin-right:5px; animation:pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(0.7)} }
+
+  .sm-race-selector { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:1.25rem; }
+  .sm-race-pill {
+    padding:6px 16px; font-size:12px; border:1.5px solid var(--border);
+    border-radius:20px; background:var(--white); cursor:pointer; color:var(--ink-mid);
+    font-weight:400; transition:all 0.15s; font-family:'DM Sans',sans-serif;
+  }
+  .sm-race-pill:hover { border-color:var(--ink-mid); color:var(--ink); }
+  .sm-race-pill.active { background:var(--ink); color:white; border-color:var(--ink); font-weight:500; }
+  .sm-race-pill.derby  { border-color:var(--rose-border); color:var(--rose); }
+  .sm-race-pill.derby.active { background:var(--rose); color:white; border-color:var(--rose); }
+
+  .sm-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:10px; margin-bottom:1.5rem; }
+
+  .sm-card {
+    background:var(--white); border:1px solid var(--border); border-radius:12px;
+    padding:1rem 1.1rem; box-shadow:var(--shadow); position:relative; overflow:hidden;
+  }
+  .sm-card::before {
+    content:''; position:absolute; top:0; left:0; width:4px; height:100%;
+  }
+  .sm-card.steam::before   { background:#e24b4a; }
+  .sm-card.drifting::before { background:#639922; }
+  .sm-card.watch::before   { background:#ba7517; }
+  .sm-card.neutral::before { background:var(--border); }
+
+  .sm-card-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; gap:8px; }
+  .sm-horse-info { flex:1; }
+  .sm-horse-name { font-size:14px; font-weight:500; }
+  .sm-post-jt    { font-size:11px; color:var(--ink-light); margin-top:1px; }
+
+  .sm-signal-badge {
+    font-size:10px; font-weight:600; padding:3px 9px; border-radius:10px;
+    text-transform:uppercase; letter-spacing:0.05em; white-space:nowrap;
+  }
+  .sm-signal-badge.steam    { background:#fcebeb; color:#a32d2d; border:1px solid #f09595; }
+  .sm-signal-badge.drifting { background:var(--green-pale); color:var(--green); border:1px solid #A8D8B8; }
+  .sm-signal-badge.watch    { background:var(--gold-pale); color:#7a5a00; border:1px solid #D4B06A; }
+  .sm-signal-badge.neutral  { background:var(--paper-warm); color:var(--ink-light); border:1px solid var(--border-light); }
+
+  .sm-odds-track { display:flex; align-items:center; gap:8px; margin:8px 0; flex-wrap:wrap; }
+  .sm-odds-from { font-size:13px; color:var(--ink-light); text-decoration:line-through; }
+  .sm-arrow { font-size:14px; color:var(--ink-light); }
+  .sm-odds-to { font-size:16px; font-weight:600; }
+  .sm-odds-to.steam    { color:#a32d2d; }
+  .sm-odds-to.drifting { color:var(--green); }
+  .sm-odds-to.watch    { color:#7a5a00; }
+
+  .sm-move-bar { height:6px; border-radius:3px; background:var(--border-light); margin:8px 0; overflow:hidden; }
+  .sm-move-fill { height:100%; border-radius:3px; transition:width 0.8s ease; }
+  .sm-move-fill.steam    { background:linear-gradient(90deg,#f7c1c1,#e24b4a); }
+  .sm-move-fill.drifting { background:linear-gradient(90deg,#c0dd97,#639922); }
+  .sm-move-fill.watch    { background:linear-gradient(90deg,#fac775,#ba7517); }
+
+  .sm-detail    { font-size:12px; color:var(--ink-mid); line-height:1.55; margin-top:6px; }
+  .sm-action-tag {
+    display:inline-block; margin-top:8px; font-size:10px; font-weight:600;
+    padding:2px 9px; border-radius:8px; text-transform:uppercase; letter-spacing:0.04em;
+  }
+  .sm-action-tag.act  { background:#fcebeb; color:#a32d2d; }
+  .sm-action-tag.fade { background:var(--green-pale); color:var(--green); }
+  .sm-action-tag.wait { background:var(--gold-pale); color:#7a5a00; }
+
+  .sm-legend {
+    display:flex; gap:12px; flex-wrap:wrap; margin-bottom:1.25rem;
+    padding:10px 14px; background:var(--paper-warm); border-radius:10px;
+    border:1px solid var(--border-light);
+  }
+  .sm-legend-item { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--ink-mid); }
+  .sm-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .sm-dot.steam    { background:#e24b4a; }
+  .sm-dot.drifting { background:#639922; }
+  .sm-dot.watch    { background:#ba7517; }
+
+  .sm-explainer {
+    background:var(--paper-warm); border-radius:10px; border:1px solid var(--border-light);
+    padding:12px 16px; font-size:12px; color:var(--ink-mid); line-height:1.7; margin-top:1.5rem;
+  }
+  .sm-explainer h4 { font-size:13px; font-weight:500; margin-bottom:6px; color:var(--ink); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .header-inner { height: auto; padding: 10px 0; }
+    .main-layout { padding: 1rem 1rem 3rem; }
+    .horse-grid { grid-template-columns: 1fr; }
+    .experts-grid { grid-template-columns: 1fr; }
+    .race-summary { flex-direction: column; }
+    .race-summary-right { align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-rose">🌹</span>
+      <div>
+        <div class="logo-text">Derby Hub 2026</div>
+        <div class="logo-sub">Churchill Downs · Louisville, KY</div>
+      </div>
+    </div>
+    <div class="header-meta">
+      <span class="badge badge-live">Race Day</span>
+      <span class="badge badge-posttime">Post Time 6:57 PM ET</span>
+      <span class="badge badge-derby">Race 12 · Kentucky Derby</span>
+    </div>
+  </div>
+</header>
+
+<!-- SOURCES BAR -->
+<div class="sources-bar">
+  <div class="sources-inner">
+    <span class="sources-label">Data from</span>
+    <a class="source-link" href="https://www.twinspires.com/kentuckyderby/" target="_blank">TwinSpires Edge</a>
+    <a class="source-link" href="https://www.cbssports.com/general/news/kentucky-derby-2026-horses-odds-predictions-posts-expert-who-called-12-derby-oaks-doubles-releases-picks/" target="_blank">CBS Sports</a>
+    <a class="source-link" href="https://www.covers.com/horse-racing/kentucky-derby/exacta-trifecta-superfecta-best-bets-2026" target="_blank">Covers</a>
+    <a class="source-link" href="https://www.kentuckyderby.com/wager/expert-picks/" target="_blank">KentuckyDerby.com</a>
+    <a class="source-link" href="https://www.brisnet.com/" target="_blank">BRISnet</a>
+    <a class="source-link" href="https://www.fanduel.com/kentucky-derby-odds" target="_blank">FanDuel Racing</a>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main-layout">
+
+  <!-- NAV TABS -->
+  <nav class="nav-tabs" id="mainTabs">
+    <button class="nav-tab active" onclick="switchTab('races',this)">Races 9–12</button>
+    <button class="nav-tab" onclick="switchTab('experts',this)">Expert Picks</button>
+    <button class="nav-tab" onclick="switchTab('builder',this)">Bet Builder</button>
+    <button class="nav-tab" onclick="switchTab('sharp',this)">⚡ Sharp Money</button>
+    <button class="nav-tab" onclick="switchTab('betslip',this)">Bet Slip <span id="slipCountBadge"></span></button>
+  </nav>
+
+  <!-- ═══ RACES PANEL ═══ -->
+  <div class="panel active" id="panel-races">
+    <div class="race-selector">
+      <button class="race-pill active" onclick="selectRace(9,this)">Race 9</button>
+      <button class="race-pill" onclick="selectRace(10,this)">Race 10</button>
+      <button class="race-pill" onclick="selectRace(11,this)">Race 11</button>
+      <button class="race-pill derby-pill" onclick="selectRace(12,this)">🌹 Race 12 · Kentucky Derby</button>
+    </div>
+    <div id="raceContent"></div>
+  </div>
+
+  <!-- ═══ EXPERTS PANEL ═══ -->
+  <div class="panel" id="panel-experts">
+    <div class="ep-race-selector" id="epRaceSel">
+      <button class="ep-race-pill active" onclick="selectExpertRace(9,this)">Race 9 · Churchill Downs Stakes</button>
+      <button class="ep-race-pill" onclick="selectExpertRace(10,this)">Race 10 · Pat Day Mile</button>
+      <button class="ep-race-pill" onclick="selectExpertRace(11,this)">Race 11 · American Turf</button>
+      <button class="ep-race-pill derby-pill" onclick="selectExpertRace(12,this)">🌹 Race 12 · Kentucky Derby</button>
+    </div>
+    <div class="ep-bet-tabs" id="epBetTabs">
+      <button class="ep-bet-tab active" onclick="selectExpertBet('win',this)">Win</button>
+      <button class="ep-bet-tab" onclick="selectExpertBet('place',this)">Place</button>
+      <button class="ep-bet-tab" onclick="selectExpertBet('show',this)">Show</button>
+      <button class="ep-bet-tab" onclick="selectExpertBet('exacta',this)">Exacta</button>
+      <button class="ep-bet-tab" onclick="selectExpertBet('trifecta',this)">Trifecta</button>
+      <button class="ep-bet-tab" onclick="selectExpertBet('superfecta',this)">Superfecta</button>
+      <button class="ep-bet-tab" onclick="selectExpertBet('value',this)">Value / Longshot</button>
+    </div>
+    <div id="epContent"></div>
+  </div>
+
+  <!-- ═══ BET BUILDER PANEL ═══ -->
+  <div class="panel" id="panel-builder">
+    <div class="race-selector" id="builderRaceSel" style="margin-bottom:1rem;">
+      <button class="race-pill active" onclick="selectBuilderRace(9,this)">Race 9</button>
+      <button class="race-pill" onclick="selectBuilderRace(10,this)">Race 10</button>
+      <button class="race-pill" onclick="selectBuilderRace(11,this)">Race 11</button>
+      <button class="race-pill derby-pill" onclick="selectBuilderRace(12,this)">🌹 Race 12 · Kentucky Derby</button>
+    </div>
+    <div class="bet-layout">
+      <div class="bet-card">
+        <div class="bet-card-header" id="builderHeader">Bet Builder — Race 9 (Churchill Downs Stakes)</div>
+        <div class="bet-type-bar" id="betTypeBar">
+          <button class="bet-type-btn active" onclick="selectBetType('win',this)">Win</button>
+          <button class="bet-type-btn" onclick="selectBetType('place',this)">Place</button>
+          <button class="bet-type-btn" onclick="selectBetType('show',this)">Show</button>
+          <button class="bet-type-btn" onclick="selectBetType('winplace',this)">Win/Place/Show</button>
+          <button class="bet-type-btn" onclick="selectBetType('exacta',this)">Exacta</button>
+          <button class="bet-type-btn" onclick="selectBetType('trifecta',this)">Trifecta</button>
+          <button class="bet-type-btn" onclick="selectBetType('daily',this)">Daily Double</button>
+        </div>
+        <div class="bet-form" id="betForm"></div>
+      </div>
+      <div class="slip-card">
+        <div class="slip-header">
+          <span class="slip-title">My Bet Slip</span>
+          <span class="slip-count" id="slipCount2">0 bets</span>
+        </div>
+        <div class="slip-body">
+          <div id="slipItems"><div class="slip-empty">No bets yet. Build one on the left →</div></div>
+          <div id="slipFooter"></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:var(--ink-light);">
+      Odds via FanDuel Racing (live / morning line). All exotic wager minimums: Trifecta $0.50, Daily Double $1 (Races 11+12 only), others $2. Pari-mutuel — final payouts set at race time. Must be 21+ to wager.
+    </div>
+  </div>
+
+  <!-- ═══ SHARP MONEY PANEL ═══ -->
+  <div class="panel" id="panel-sharp">
+    <div class="sm-header">
+      <div class="sm-header-left">
+        <h2>⚡ Sharp Money & Odds Movement</h2>
+        <p>Line movement from morning line → current FanDuel odds. Steam = shortening fast (bet it). Drifting = lengthening (overlay or fade signal). Updated as of race day morning.</p>
+      </div>
+      <div class="sm-last-updated"><span class="sm-pulse"></span>Last updated: Race Day, May 2 · 9:25 AM ET</div>
+    </div>
+    <div class="sm-legend">
+      <div class="sm-legend-item"><div class="sm-dot steam"></div><strong>Steam</strong> — shortening fast, sharp/public money pouring in — consider betting</div>
+      <div class="sm-legend-item"><div class="sm-dot watch"></div><strong>Watch</strong> — notable move, track closely before post time</div>
+      <div class="sm-legend-item"><div class="sm-dot drifting"></div><strong>Drifting</strong> — lengthening (money going elsewhere), possible value or fade signal</div>
+    </div>
+    <div class="sm-race-selector" id="smRaceSel">
+      <button class="sm-race-pill active" onclick="selectSmRace(9,this)">Race 9</button>
+      <button class="sm-race-pill" onclick="selectSmRace(10,this)">Race 10</button>
+      <button class="sm-race-pill" onclick="selectSmRace(11,this)">Race 11</button>
+      <button class="sm-race-pill derby" onclick="selectSmRace(12,this)">🌹 Race 12 · Derby</button>
+    </div>
+    <div id="smContent"></div>
+    <div class="sm-explainer">
+      <h4>How to read sharp money moves</h4>
+      <strong>Steam</strong> means money is flooding in, compressing the price. This can be sharp (professional) money acting on information, or heavy public betting on a recognizable name. Look for horses shortening >30% from morning line — those are the ones the market is most confident in. <br><br>
+      <strong>Drifting</strong> means money is going away from a horse. Either the public is fading them (creating value) or sharp money is betting against them. A drifting favorite at post time is a classic overlay signal for exotics.<br><br>
+      <strong>Key rule:</strong> In pari-mutuel racing, the final odds at gate opening are all that matter — not the morning line. Watch the tote board in the final 5 minutes before each race. The biggest moves happen in the last 2 minutes when large bets hit the pool simultaneously.
+    </div>
+  </div>
+
+  <!-- ═══ BET SLIP PANEL ═══ -->
+  <div class="panel" id="panel-betslip">
+    <div class="slip-card" style="max-width:600px;">
+      <div class="slip-header">
+        <span class="slip-title">My Bet Slip</span>
+        <span class="slip-count" id="slipCount3">0 bets</span>
+      </div>
+      <div class="slip-body">
+        <div id="slipItems2"><div class="slip-empty">No bets added yet. Use the Bet Builder tab.</div></div>
+        <div id="slipFooter2"></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div>Kentucky Derby 2026 Betting Hub · Built for Race Day, May 2, 2026 · Churchill Downs, Louisville, KY</div>
+  <div style="margin-top:4px;">Data sourced from <a href="https://www.twinspires.com" target="_blank">TwinSpires</a>, <a href="https://www.cbssports.com" target="_blank">CBS Sports</a>, <a href="https://www.covers.com" target="_blank">Covers</a>, <a href="https://www.kentuckyderby.com" target="_blank">KentuckyDerby.com</a>, <a href="https://www.brisnet.com" target="_blank">BRISnet</a>, <a href="https://www.fanduel.com" target="_blank">FanDuel Racing</a></div>
+  <div style="margin-top:4px;">For entertainment purposes. Please gamble responsibly. 21+ only. Problem Gambling Helpline: 1-800-522-4700</div>
+</footer>
+
+<script>
+// ─────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────
+const races = {
+  9: {
+    title: "Race 9",
+    name: "Churchill Downs Stakes (G2)",
+    distance: "6 Furlongs · Dirt",
+    purse: "$500,000",
+    time: "~4:45 PM ET",
+    note: "Grade 2 sprint for older horses. One of the fastest races of Derby Day — sets the tone for the card.",
+    horses: [
+      { post:1,  name:"Shaquille",       jockey:"T. Gaffalione", trainer:"T. Pletcher", odds:"9/2",  fdOdds:"+450",  beyer:110, style:"E", note:"Multiple G1-placed sprinter. Sharp 5f work in :58.4 last week. Four starts this year: 2W-1P.", scratched:false, expertPick:false,
+        stats:{ bris:110, latePace:108, starts:12, record:"6-3-2", lastPrepFinish:"1st", sire:"Into Mischief", distanceRating:"A (6f specialist)", pedigreeNote:"Into Mischief dam-line gives brilliant speed; ideally suited for 6f", winTrend:"✅ 3 of 5 key boxes checked", keyRisk:"Will he get clear early from rail?" }},
+      { post:2,  name:"Jaco",            jockey:"J. Castellano",  trainer:"C. Brown",   odds:"3/1",  fdOdds:"+300",  beyer:107, style:"S", note:"Chad Brown runner. Won G3 Palisades Credit Union Sprint in April by 2½ lengths. Career: 8-4-2.", scratched:false, expertPick:true,
+        stats:{ bris:107, latePace:106, starts:8, record:"4-2-1", lastPrepFinish:"1st", sire:"Gun Runner", distanceRating:"A (loves 6f–7f)", pedigreeNote:"Gun Runner sire excels at all distances; stamina not an issue", winTrend:"✅ 4 of 5 key boxes checked", keyRisk:"Post 2 historically tricky in sprints" }},
+      { post:3,  name:"Blazing Sword",   jockey:"L. Saez",        trainer:"B. Cox",     odds:"5/1",  fdOdds:"+500",  beyer:104, style:"E", note:"Brad Cox trainee. Won Breeders' Cup Sprint two years ago. Returning from 8-week freshening. Career: 14-7-3.", scratched:false, expertPick:false,
+        stats:{ bris:104, latePace:99, starts:14, record:"7-3-2", lastPrepFinish:"3rd", sire:"Curlin", distanceRating:"A-", pedigreeNote:"Curlin sire gives durability and late energy; proven in Grade 1 sprints", winTrend:"⚠️ 3 of 5 boxes — last prep finish 3rd", keyRisk:"8-week layoff; rust possible first back" }},
+      { post:4,  name:"Patriot Act",     jockey:"I. Ortiz Jr.",   trainer:"T. Pletcher",odds:"4/1",  fdOdds:"+400",  beyer:105, style:"S", note:"Todd Pletcher / Irad Ortiz combo. Won Vosburgh (G2) last fall. Three wins this spring, all at six furlongs.", scratched:false, expertPick:false,
+        stats:{ bris:105, latePace:103, starts:10, record:"5-2-2", lastPrepFinish:"2nd", sire:"Medaglia d'Oro", distanceRating:"A (6f specialist)", pedigreeNote:"Medaglia d'Oro line well-suited to dirt sprints; classic pedigree", winTrend:"✅ 4 of 5 boxes checked", keyRisk:"Has lost his last two at G2+ level" }},
+      { post:5,  name:"Lucky Penny",     jockey:"F. Prat",        trainer:"D. O'Neill", odds:"8/1",  fdOdds:"+800",  beyer:100, style:"C", note:"Closing sprinter. Beat older horses in March at Santa Anita. First Churchill start — unknown track bias impact.", scratched:false, expertPick:false,
+        stats:{ bris:100, latePace:105, starts:9, record:"4-2-1", lastPrepFinish:"1st", sire:"Nyquist", distanceRating:"B+ (needs pace to close into)", pedigreeNote:"Nyquist sire works at all sprint/route distances on dirt", winTrend:"✅ 3 of 5 boxes; strong late pace figure", keyRisk:"First time at Churchill Downs" }},
+      { post:6,  name:"Cactus Jack",     jockey:"M. Smith",       trainer:"B. Baffert", odds:"6/1",  fdOdds:"+600",  beyer:102, style:"E", note:"Baffert running on Derby Day. Won Dubai Golden Shaheen in February. Second career start in the US.", scratched:false, expertPick:false,
+        stats:{ bris:102, latePace:98, starts:7, record:"4-1-1", lastPrepFinish:"2nd", sire:"American Pharoah", distanceRating:"A (front-running 6f type)", pedigreeNote:"American Pharoah sire gives speed and stamina versatility", winTrend:"⚠️ 3 of 5 boxes — 2nd in last US prep", keyRisk:"Adjusting to US racing surface and conditions" }},
+      { post:7,  name:"Rocketship",      jockey:"J. Velazquez",   trainer:"W. Mott",   odds:"10/1", fdOdds:"+1000", beyer:99,  style:"S", note:"Bill Mott barn. Consistent mid-pack runner. Four top-3 finishes in last five. Career: 11-4-3.", scratched:false, expertPick:false,
+        stats:{ bris:99, latePace:101, starts:11, record:"4-3-2", lastPrepFinish:"3rd", sire:"Constitution", distanceRating:"B+", pedigreeNote:"Constitution sire (Chief Wallabee's sire too) — works well on fast surfaces", winTrend:"⚠️ 2 of 5 boxes; hasn't won in 3 starts", keyRisk:"Hasn't won since January" }},
+      { post:8,  name:"Night Owl",       jockey:"J. Alvarado",    trainer:"J. Ennis",  odds:"15/1", fdOdds:"+1500", beyer:95,  style:"C", note:"Longest shot in field. Deep closer — needs a hot pace. Won allowance at Gulfstream by 4 lengths last month.", scratched:false, expertPick:false,
+        stats:{ bris:95, latePace:103, starts:8, record:"3-1-2", lastPrepFinish:"1st (allowance)", sire:"Not This Time", distanceRating:"B", pedigreeNote:"Not This Time sire excels at sprint distances but needs pace", winTrend:"⚠️ 2 of 5 boxes — allowance win doesn't translate to G2", keyRisk:"Must have fast early pace to close into; 15-1" }},
+    ]
+  },
+  10: {
+    title: "Race 10",
+    name: "Pat Day Mile (G2)",
+    distance: "1 Mile · Dirt",
+    purse: "$500,000",
+    time: "~5:30 PM ET",
+    note: "Grade 2 mile for 3-year-olds not running in the Derby. Key undercard stakes and a strong pace read for Derby bettors.",
+    horses: [
+      { post:1,  name:"Paladin",          jockey:"I. Ortiz Jr.",  trainer:"T. Pletcher", odds:"5/2",  fdOdds:"+250",  beyer:103, style:"C", note:"Renegade's old rival. Beat him in the Remsen last fall but ran into traffic issues in the Sam F. Davis. Very lightly raced, massive upside.", scratched:false, expertPick:true,
+        stats:{ bris:103, latePace:106, starts:5, record:"3-1-0", lastPrepFinish:"2nd (Sam F. Davis)", sire:"Into Mischief", distanceRating:"A (classic miler)", pedigreeNote:"Into Mischief — same sire as Renegade & Commandment; stays 1 mile easily", winTrend:"✅ 4 of 5 boxes checked", keyRisk:"Only 5 career starts; lightly raced but talented" }},
+      { post:2,  name:"Express Kid",      jockey:"L. Saez",       trainer:"B. Cox",      odds:"7/2",  fdOdds:"+350",  beyer:101, style:"S", note:"Cox barn's Pat Day Mile entry. Lost to Pavlovian by a nose in the Sunland Park Derby. Consistent stalker who should fire fresh.", scratched:false, expertPick:false,
+        stats:{ bris:101, latePace:99, starts:7, record:"3-2-1", lastPrepFinish:"2nd (Sunland Park Derby)", sire:"Gun Runner", distanceRating:"A", pedigreeNote:"Gun Runner sire handles 1 mile on dirt with ease; will appreciate pace", winTrend:"✅ 3 of 5 boxes", keyRisk:"Narrow loss last out leaves questions about finishing" }},
+      { post:3,  name:"Ironclad",         jockey:"F. Prat",       trainer:"C. Brown",    odds:"4/1",  fdOdds:"+400",  beyer:99,  style:"E", note:"Chad Brown / Flavien Prat. Won G3 Lecomte Stakes at Fair Grounds. Tries to wire the field from the front.", scratched:false, expertPick:false,
+        stats:{ bris:99, latePace:95, starts:6, record:"3-1-1", lastPrepFinish:"4th (Louisiana Derby)", sire:"Curlin", distanceRating:"B+", pedigreeNote:"Curlin sire has stamina; distance fine but step up in class after Louisiana Derby 4th", winTrend:"⚠️ 3 of 5 boxes — 4th in last prep is a red flag", keyRisk:"Fell apart in Louisiana Derby — class question" }},
+      { post:4,  name:"Solid Ground",     jockey:"J. Castellano", trainer:"G. Delgado",  odds:"6/1",  fdOdds:"+600",  beyer:97,  style:"S", note:"Delgado barn (trained Mage, 2023 Derby winner). Well-placed 4 of 5 starts. Earned 94 BRIS in final prep. Patient stalker.", scratched:false, expertPick:false,
+        stats:{ bris:97, latePace:102, starts:6, record:"3-1-1", lastPrepFinish:"1st (Allowance)", sire:"Essential Quality", distanceRating:"A-", pedigreeNote:"Essential Quality sire — 2021 Derby fav — produces powerful milers and routers", winTrend:"✅ 3 of 5 boxes; strong late pace", keyRisk:"Allowance winner stepping up; G2 test" }},
+      { post:5,  name:"Stark Contrast",   jockey:"M. Smith",      trainer:"M. Glatt",    odds:"8/1",  fdOdds:"+800",  beyer:96,  style:"C", note:"Mike Smith / Mark Glatt. Originally entered Derby but chose this spot. Deeper closer who needs a hot pace to fire.", scratched:false, expertPick:false,
+        stats:{ bris:96, latePace:104, starts:8, record:"3-2-2", lastPrepFinish:"3rd (Santa Anita Derby)", sire:"Nyquist", distanceRating:"B+", pedigreeNote:"Nyquist sire gives versatility; will handle the mile fine", winTrend:"⚠️ 3 of 5 boxes; 3rd in Santa Anita Derby", keyRisk:"Needs a hot pace to make one run" }},
+      { post:6,  name:"Long Gone",        jockey:"J. Torres",     trainer:"R. Mott",     odds:"10/1", fdOdds:"+1000", beyer:93,  style:"E", note:"Riley Mott barn. Won the Withers (G3) at Aqueduct in February. Four-wide trip in that race makes the figure look better.", scratched:false, expertPick:false,
+        stats:{ bris:93, latePace:90, starts:6, record:"2-2-1", lastPrepFinish:"4th (Wood Memorial)", sire:"Uncle Mo", distanceRating:"B", pedigreeNote:"Uncle Mo sire gives early speed; distance manageable but not ideal", winTrend:"⚠️ 2 of 5 boxes — 4th in Wood, speed figs dropping", keyRisk:"4th in Wood Memorial; form is trending down" }},
+      { post:7,  name:"Copper Canyon",    jockey:"J. Alvarado",   trainer:"W. Mott",     odds:"12/1", fdOdds:"+1200", beyer:91,  style:"S", note:"Bill Mott's second string. Won maiden at Churchill last fall, then placed in two stakes. Needs a pace scenario to improve.", scratched:false, expertPick:false,
+        stats:{ bris:91, latePace:96, starts:7, record:"2-2-1", lastPrepFinish:"2nd (Allowance)", sire:"Constitution", distanceRating:"B+", pedigreeNote:"Constitution sire (also sires Chief Wallabee) — handles 1 mile on dirt", winTrend:"⚠️ 2 of 5 boxes", keyRisk:"Winless since November; question of peaking at right time" }},
+      { post:8,  name:"Midnight Storm",   jockey:"J. Velazquez",  trainer:"D. O'Neill",  odds:"15/1", fdOdds:"+1500", beyer:88,  style:"C", note:"O'Neill / Velazquez late entry. Big closing style but will need near-perfect trip from the far outside.", scratched:false, expertPick:false,
+        stats:{ bris:88, latePace:99, starts:9, record:"3-1-3", lastPrepFinish:"3rd (Withers)", sire:"Accelerate", distanceRating:"B", pedigreeNote:"Accelerate sire (also sires Robusta) — gets distance but needs pace", winTrend:"⚠️ 2 of 5 boxes — inconsistent form", keyRisk:"Post 8 in tight mile; needs early luck to avoid traffic" }},
+    ]
+  },
+  11: {
+    title: "Race 11",
+    name: "American Turf (G2)",
+    distance: "1 1/16 Miles · Turf",
+    purse: "$500,000",
+    time: "~6:10 PM ET",
+    note: "Grade 2 turf mile for 4-year-olds & up. Final undercard race before the Derby. Turf specialist — different skill set from Derby field.",
+    horses: [
+      { post:1,  name:"Dornoch Lad",      jockey:"I. Ortiz Jr.",  trainer:"T. Pletcher", odds:"3/1",  fdOdds:"+300",  beyer:106, style:"S", note:"Turf stalker. Won G1 Turf Classic at Churchill last fall. Pletcher / Ortiz — formidable combo on any surface.", scratched:false, expertPick:true,
+        stats:{ bris:106, latePace:108, starts:14, record:"6-3-2", lastPrepFinish:"1st (G2 Pan American)", sire:"Galileo (IRE)", distanceRating:"A+ (1 1/16 turf specialist)", pedigreeNote:"Galileo European turf pedigree is ideal for American turf — deep stamina", winTrend:"✅ 5 of 5 boxes checked", keyRisk:"Post 1 on turf can cause early crowding" }},
+      { post:2,  name:"Capri Sun",        jockey:"F. Prat",       trainer:"C. Brown",    odds:"7/2",  fdOdds:"+350",  beyer:103, style:"C", note:"Chad Brown is the best turf trainer in the US. Won G2 Elkhorn at Keeneland in April. Deep late kick.", scratched:false, expertPick:false,
+        stats:{ bris:103, latePace:110, starts:11, record:"5-2-1", lastPrepFinish:"1st (G2 Elkhorn)", sire:"Frankel (GB)", distanceRating:"A+ (deep turf closer)", pedigreeNote:"Frankel — best turf sire in the world; excels at 1–1¼ miles on grass", winTrend:"✅ 5 of 5 boxes checked", keyRisk:"Post 2, needs early pace to close into" }},
+      { post:3,  name:"Riviera Moon",     jockey:"J. Velazquez",  trainer:"C. McGaughey",odds:"5/1",  fdOdds:"+500",  beyer:101, style:"E", note:"Shug McGaughey trainer. Loves to be on the lead. Won 2 of last 3 on grass. Churchill is his home track.", scratched:false, expertPick:false,
+        stats:{ bris:101, latePace:97, starts:10, record:"5-2-2", lastPrepFinish:"2nd (G3 Appleton)", sire:"Kitten's Joy", distanceRating:"A (turf specialist)", pedigreeNote:"Kitten's Joy — prolific US turf sire; ideally suited to 1 1/16m grass", winTrend:"✅ 3 of 5 boxes", keyRisk:"2nd last out; may be outrun by pace pressure" }},
+      { post:4,  name:"Danube Blue",      jockey:"J. Castellano", trainer:"W. Ward",     odds:"6/1",  fdOdds:"+600",  beyer:99,  style:"S", note:"European import, first full US campaign. Placed in G2 at Sandown before crossing. Deep form on European turf.", scratched:false, expertPick:false,
+        stats:{ bris:99, latePace:103, starts:12, record:"4-4-1", lastPrepFinish:"2nd (G2 Hill Prince)", sire:"Dubawi (IRE)", distanceRating:"A (classic Euro turf distance)", pedigreeNote:"Dubawi — champion European sire; elite stamina for 1–1½ miles", winTrend:"✅ 3 of 5 boxes — lots of seconds", keyRick:"Strong form but habit of losing close finishes" }},
+      { post:5,  name:"Emerald Isle",     jockey:"L. Saez",       trainer:"B. Cox",      odds:"4/1",  fdOdds:"+400",  beyer:104, style:"S", note:"Brad Cox's top turf runner. Stakes-placed in both Europe and US. Won G3 Appleton at Gulfstream. Third time at Churchill.", scratched:false, expertPick:true,
+        stats:{ bris:104, latePace:106, starts:13, record:"5-3-2", lastPrepFinish:"1st (G3 Appleton)", sire:"Fastnet Rock (AUS)", distanceRating:"A+", pedigreeNote:"Fastnet Rock — elite Australian turf sire; handles US turf beautifully", winTrend:"✅ 4 of 5 boxes — consistent form", keyRisk:"Wide post at 5; will need a clear trip" }},
+      { post:6,  name:"Sunlit Path",      jockey:"M. Smith",      trainer:"M. Glatt",    odds:"10/1", fdOdds:"+1000", beyer:96,  style:"C", note:"Mike Smith mount. Won an allowance on turf at Santa Anita by 3 lengths. First stakes test. Longest route he's tried.", scratched:false, expertPick:false,
+        stats:{ bris:96, latePace:101, starts:7, record:"3-1-2", lastPrepFinish:"1st (Allowance)", sire:"Justify", distanceRating:"B+ (stamina pedigree, but unproven in stakes)", pedigreeNote:"Justify sire — Triple Crown winner — gives solid distance stamina", winTrend:"⚠️ 2 of 5 boxes — allowance win, G2 first time", keyRisk:"Stepping up sharply in class at 10-1" }},
+      { post:7,  name:"Pacific Rim",      jockey:"J. Alvarado",   trainer:"W. Mott",     odds:"12/1", fdOdds:"+1200", beyer:94,  style:"E", note:"Bill Mott runner. Won maiden on turf at Belmont. Two allowance wins since. Front-running style on grass.", scratched:false, expertPick:false,
+        stats:{ bris:94, latePace:91, starts:8, record:"3-1-1", lastPrepFinish:"2nd (Allowance)", sire:"Into Mischief", distanceRating:"B (turf form building)", pedigreeNote:"Into Mischief more associated with dirt; turf form from dam line", winTrend:"⚠️ 2 of 5 boxes — needs to prove at stakes level", keyRisk:"Post 7 on turf; front-runner may have traffic issues" }},
+      { post:8,  name:"Desert Wind",      jockey:"J. Torres",     trainer:"B. Beckman",  odds:"20/1", fdOdds:"+2000", beyer:89,  style:"C", note:"Riley Mott's third-barn runner. Deep closer on turf. Won maiden at Saratoga. Big jump in class.", scratched:false, expertPick:false,
+        stats:{ bris:89, latePace:98, starts:6, record:"2-1-2", lastPrepFinish:"3rd (G3)", sire:"War Front", distanceRating:"B (turf capable, needs more experience)", pedigreeNote:"War Front — excellent US turf sire; pedigree suits the distance", winTrend:"⚠️ 1 of 5 boxes — maiden/allowance form at 20-1", keyRisk:"Big class rise; 20-1 outsider" }},
+    ]
+  },
+  12: {
+    title: "Race 12 · Kentucky Derby (G1) 🌹",
+    name: "152nd Kentucky Derby — The Run for the Roses",
+    distance: "1¼ Miles · Dirt",
+    purse: "$5,000,000",
+    time: "6:57 PM ET",
+    note: "Full field: 19 horses run (4 scratched — Right to Party, Silent Tactic, Fulleffort, The Puma). Post time 6:57 PM ET. Scratched horses shown grayed out below.",
+    horses: [
+      { post:1,  name:"Renegade",        jockey:"I. Ortiz Jr.",   trainer:"T. Pletcher", odds:"5/1",  fdOdds:"+500",  beyer:107, style:"C", note:"Morning-line co-favorite. Arkansas Derby winner. 5 starts: 2W-2P-1S. Post 1 is a concern — no winner from the rail since Ferdinand in 1986. Record: $1.03M career earnings.", scratched:false, expertPick:false,
+        stats:{ bris:107, latePace:109, starts:5, record:"2-2-1", lastPrepFinish:"1st (Arkansas Derby)", sire:"Into Mischief", distanceRating:"A (bred to stay 1¼m)", pedigreeNote:"Into Mischief x Curlin dam — elite stamina combo. Dam is a stakes winner. Gets the mile-and-a-quarter on pedigree.", winTrend:"✅ 5 of 5 boxes checked", keyRisk:"Post 1 rail — no Derby winner from P1 since 1986. Pletcher 2W from 65 Derby starts." }},
+      { post:2,  name:"Albus",           jockey:"M. Franco",      trainer:"R. Mott",     odds:"43/1", fdOdds:"+4300", beyer:84,  style:"S", note:"Riley Mott (son of Bill Mott) barn. Pin Oak Stud. 4 starts: 2W-0P-1S. Longshot in a deep field.", scratched:false, expertPick:false,
+        stats:{ bris:91, latePace:88, starts:4, record:"2-0-1", lastPrepFinish:"1st (Wood Memorial)", sire:"Yaupon", distanceRating:"C (sire is sprinter; dam gives stamina)", pedigreeNote:"Yaupon sire was a sprinter — major distance concern at 1¼m. Dam's line offers some stamina hope.", winTrend:"⚠️ 2 of 5 boxes — BRIS 91 is light vs field average", keyRisk:"91 BRIS is well below winners' threshold of 100+. Sire bred for shorter distances." }},
+      { post:3,  name:"Intrepido",       jockey:"H. Berrios",     trainer:"J. Mullins",  odds:"45/1", fdOdds:"+4500", beyer:88,  style:"E", note:"Completed a stunning 5-furlong workout at Churchill in 57 seconds — believed fastest since 2012. 6 starts: 2W-1P-0S. Dutch Girl Holdings.", scratched:false, expertPick:false,
+        stats:{ bris:99, latePace:94, starts:6, record:"2-1-0", lastPrepFinish:"4th (Santa Anita Derby)", sire:"Maximus Mischief", distanceRating:"B (Maximus Mischief is miler)", pedigreeNote:"Maximus Mischief sire is a miler type — 1¼m is a stretch. Won American Pharoah G1 with 99 BRIS but fell apart in Santa Anita Derby.", winTrend:"⚠️ 2 of 5 boxes — 4th in final prep is a red flag", keyRisk:"4th in Santa Anita Derby prep. Distance and pedigree both questionable at 1¼m." }},
+      { post:4,  name:"Litmus Test",     jockey:"M. Garcia",      trainer:"B. Baffert",  odds:"28/1", fdOdds:"+2800", beyer:91,  style:"E", note:"Baffert's 2nd Derby entry. 7 starts: 2W-0P-2S. Early speed type. Baffert chasing record 7th Derby win.", scratched:false, expertPick:false,
+        stats:{ bris:91, latePace:89, starts:7, record:"2-0-2", lastPrepFinish:"3rd (Rebel Stakes)", sire:"Nyquist", distanceRating:"B-", pedigreeNote:"Nyquist sire (2016 Derby winner) gives some classic distance hope but Litmus Test's figures are light.", winTrend:"⚠️ 2 of 5 boxes — BRIS 91 is below winners' threshold", keyRisk:"Speed figs well below field average. 3rd in Rebel. Pace duel risk as front-runner." }},
+      { post:5,  name:"Right to Party",  jockey:"C. Elliott",     trainer:"K. McPeek",   odds:"SCR",  fdOdds:"SCR",   beyer:88,  style:"S", note:"SCRATCHED. Chester Broman's colt was post 5. Robusta drew in as replacement.", scratched:true,  expertPick:false,
+        stats:{ bris:90, latePace:88, starts:4, record:"1-1-2", lastPrepFinish:"2nd (Wood Memorial)", sire:"Not This Time", distanceRating:"C", pedigreeNote:"N/A — scratched", winTrend:"N/A — scratched", keyRisk:"Scratched" }},
+      { post:6,  name:"Commandment",     jockey:"L. Saez",        trainer:"B. Cox",      odds:"5/1",  fdOdds:"+500",  beyer:101, style:"S", note:"Co-favorite. Won 4 straight including G1 Florida Derby. Half-brother to Renegade. Into Mischief sire. Brad Cox trainer (won 2021 Derby w/ Mandaloun). Top Covers pick.", scratched:false, expertPick:true,
+        stats:{ bris:103, latePace:105, starts:5, record:"4-0-0", lastPrepFinish:"1st (Florida Derby G1)", sire:"Into Mischief", distanceRating:"A (classic distance pedigree)", pedigreeNote:"Into Mischief x Sippican Harbor (by Orb, 2013 Derby winner) — two Derby-winning bloodlines. Bred to excel at 1¼m.", winTrend:"✅ 5 of 5 boxes checked — only horse with 2x Beyer 100+", keyRisk:"Won Florida Derby by nose — close margins. Saez 0-for-12 in Derby. Pletcher took Renegade over him." }},
+      { post:7,  name:"Danon Bourbon",   jockey:"A. Nishimura",   trainer:"M. Ikezoe",   odds:"14/1", fdOdds:"+1400", beyer:95,  style:"E", note:"Japan Road qualifier. Undefeated in 3 starts — all in Japan. First US race. Danox Co. owner. If he adapts to American dirt, dangerous front-runner.", scratched:false, expertPick:false,
+        stats:{ bris:95, latePace:92, starts:3, record:"3-0-0", latePace:92, lastPrepFinish:"1st (Fukuryu Stakes)", sire:"Maxfield", distanceRating:"B+ (Street Sense line handles distance)", pedigreeNote:"Maxfield is son of Street Sense (2007 Derby winner) — classic pedigree. But all wins in Japan; US dirt unknown.", winTrend:"⚠️ 3 of 5 boxes — never raced in US", keyRisk:"First US dirt race. Japanese horses are 1-for-35 all-time in the Derby. Will he adapt?" }},
+      { post:8,  name:"So Happy",        jockey:"M. Smith",       trainer:"M. Glatt",    odds:"5/1",  fdOdds:"+500",  beyer:100, style:"S", note:"Co-favorite. Won G1 Santa Anita Derby. 4 starts: 3W-0P-1S. Mike Smith rides (28 Derby mounts — most in history). Sire Runhappy is sprint-bred — distance is the key concern.", scratched:false, expertPick:false,
+        stats:{ bris:100, latePace:103, starts:4, record:"3-0-1", lastPrepFinish:"1st (Santa Anita Derby G1)", sire:"Runhappy", distanceRating:"C+ (sire is pure sprinter)", pedigreeNote:"Runhappy sire is 7f specialist — shortest-bred sire in the field. Dam's line (Power Squeeze won 1¼m Alabama G1) gives hope. Biggest pedigree question in top tier.", winTrend:"✅ 4 of 5 boxes — loses pedigree/distance check", keyRisk:"Runhappy sire averages 6.6f per win for his progeny — biggest distance concern in the field." }},
+      { post:9,  name:"The Puma",        jockey:"J. Castellano",  trainer:"G. Delgado",  odds:"SCR",  fdOdds:"SCR",   beyer:100, style:"S", note:"SCRATCHED race morning. Leg swelling from skin infection. Was 7-1 before scratch. Delgado/Castellano won 2023 Derby with Mage.", scratched:true,  expertPick:false,
+        stats:{ bris:100, latePace:102, starts:4, record:"1-2-1", lastPrepFinish:"2nd (Florida Derby)", sire:"Essential Quality", distanceRating:"A", pedigreeNote:"N/A — scratched", winTrend:"N/A — scratched", keyRisk:"Scratched — leg swelling from skin infection." }},
+      { post:10, name:"Wonder Dean",     jockey:"R. Sakai",       trainer:"D. Takayanagi",odds:"22/1",fdOdds:"+2200", beyer:82,  style:"S", note:"Japan Road qualifier. 6 starts: 2W-2P-0S. First US race on dirt — major unknown. Has drawn one of the historically best gates at Churchill. Yoshinari Yamamoto owner.", scratched:false, expertPick:false,
+        stats:{ bris:82, latePace:85, starts:6, record:"2-2-0", lastPrepFinish:"1st (UAE Derby G2)", sire:"Dee Majesty", distanceRating:"B (handled 1¼m in UAE)", pedigreeNote:"Dee Majesty is son of legendary Deep Impact — Japanese Sunday Silence line. Handles distance but Japanese horses historically struggle on US dirt.", winTrend:"⚠️ 1 of 5 boxes — BRIS 82 far below threshold", keyRisk:"BRIS 82 is the 2nd lowest in field. Was tiring late in UAE Derby. First time on US dirt." }},
+      { post:11, name:"Incredibolt",     jockey:"J. Torres",      trainer:"R. Mott",     odds:"24/1", fdOdds:"+2400", beyer:91,  style:"S", note:"Riley Mott barn. 5 starts: 3W-0P-0S. Won Virginia Derby + 2 wins at Churchill Downs — track record matters. Seven-week layoff is main concern. Pin Oak Stud.", scratched:false, expertPick:true,
+        stats:{ bris:100, latePace:97, starts:5, record:"3-0-0", lastPrepFinish:"1st (Virginia Derby)", sire:"Bolt d'Oro", distanceRating:"B (Bolt d'Oro was 12th in 2018 Derby)", pedigreeNote:"Bolt d'Oro was 12th in the Derby himself — pedigree is a moderate concern at 1¼m. But dam's line has stamina.", winTrend:"✅ 3 of 5 boxes — BRIS 100 in Virginia Derby meets threshold", keyRisk:"7-week layoff — it's rare for Derby winners to go that long between races. Pedigree marginal at distance." }},
+      { post:12, name:"Chief Wallabee",  jockey:"J. Alvarado",    trainer:"W. Mott",     odds:"7/1",  fdOdds:"+700",  beyer:100, style:"S", note:"Same Bill Mott / Junior Alvarado duo that won 2025 Derby with Sovereignty. Blinkers added for first time. Constitution sire. 3 starts: 1W-1P-1S — all in the money. NBC analyst's top pick.", scratched:false, expertPick:true,
+        stats:{ bris:100, latePace:103, starts:3, record:"1-1-1", lastPrepFinish:"3rd (Florida Derby G1)", sire:"Constitution", distanceRating:"A (Constitution bred for classic distances)", pedigreeNote:"Constitution sire is a son of Tapit — outstanding classic distance pedigree. Connections won 2025 Derby. Bill Mott knows how to peak horses for Derby day.", winTrend:"✅ 4 of 5 boxes — only 3 starts (minimum threshold exactly met)", keyRisk:"Only 3 career starts — among least experienced. New blinkers are an unknown. 3rd in last race, not 1st or 2nd." }},
+      { post:13, name:"Silent Tactic",   jockey:"C. Torres",      trainer:"M. Casse",    odds:"SCR",  fdOdds:"SCR",   beyer:89,  style:"C", note:"SCRATCHED Wednesday with foot injury. Great White drew in as replacement. John Oxley owner. Casse is 0-11 all-time in the Kentucky Derby.", scratched:true,  expertPick:false,
+        stats:{ bris:89, latePace:86, starts:6, record:"2-4-0", lastPrepFinish:"2nd", sire:"Not This Time", distanceRating:"C", pedigreeNote:"N/A — scratched", winTrend:"N/A — scratched", keyRisk:"Scratched — foot injury." }},
+      { post:14, name:"Potente",         jockey:"J. Hernandez",   trainer:"B. Baffert",  odds:"21/1", fdOdds:"+2100", beyer:96,  style:"E", note:"$2.4M Into Mischief colt. Baffert's 1st Derby entry. 3 starts: 2W-1P. Finished 2nd in G1 Santa Anita Derby. Early speed. Speedway Stables.", scratched:false, expertPick:false,
+        stats:{ bris:96, latePace:93, starts:3, record:"2-1-0", lastPrepFinish:"2nd (Santa Anita Derby G1)", sire:"Into Mischief", distanceRating:"A (Into Mischief is a classic distance sire)", pedigreeNote:"Into Mischief sire — same as Renegade and Commandment. Classic distance pedigree. But faded to 2nd in Santa Anita Derby — stamina question.", winTrend:"⚠️ 3 of 5 boxes — BRIS 96 below 100 threshold", keyRisk:"Faded to 2nd after setting pace in Santa Anita Derby — worried about going 1¼m. BRIS below threshold." }},
+      { post:15, name:"Emerging Market", jockey:"F. Prat",        trainer:"C. Brown",    odds:"9/1",  fdOdds:"+900",  beyer:null, style:"C", note:"Undefeated — 2 career starts, 2 wins. Fewest starts in the field. Chad Brown / Flavien Prat combo. Klaravich Stables. Demling's top win pick. Sky-high ceiling; inexperience is the question.", scratched:false, expertPick:true,
+        stats:{ bris:102, latePace:104, starts:2, record:"2-0-0", lastPrepFinish:"1st (Louisiana Derby G2)", sire:"Candy Ride (ARG)", distanceRating:"A (Candy Ride family stays 1¼m)", pedigreeNote:"Candy Ride (ARG) sire — produces powerful, stamina-laden runners. Won Louisiana Derby with 102 BRIS. But only 2 career starts — historically almost never wins Derby off 2 starts (last was 1883).", winTrend:"⚠️ 3 of 5 boxes — fails experience requirement (only 2 starts)", keyRisk:"Only 2 career starts — almost unprecedented for a Derby winner since 1883 (Leonatus). Fewest starts in field." }},
+      { post:16, name:"Pavlovian",       jockey:"E. Maldonado",   trainer:"D. O'Neill",  odds:"46/1", fdOdds:"+4600", beyer:88,  style:"S", note:"10 career starts — most experienced horse in field. Reddam Racing / Doug O'Neill (won Derby with I'll Have Another & Nyquist). Front-runner transformed by blinkers.", scratched:false, expertPick:false,
+        stats:{ bris:101, latePace:97, starts:10, record:"2-4-1", lastPrepFinish:"2nd (Louisiana Derby G2)", sire:"Pavel", distanceRating:"B+ (Pavel is Giant's Causeway line — stays distance)", pedigreeNote:"Pavel sire (Giant's Causeway/Storm Cat line) gives classic distance ability. Set pace in Louisiana Derby before fading slightly — pace duel risk.", winTrend:"⚠️ 3 of 5 boxes — 101 BRIS meets bar but late pace and Beyer are lighter", keyRisk:"Will likely be in a pace duel with Six Speed — could set it up for closers. 46-1 longshot." }},
+      { post:17, name:"Six Speed",       jockey:"B. Hernandez Jr.",trainer:"B. Seemar",  odds:"34/1", fdOdds:"+3400", beyer:86,  style:"E", note:"Finished 2nd in UAE Derby at Meydan on Mar 28. Post 17 has NEVER produced a Derby winner (0 for 46 all-time). Front-runner. $304K purchase. Brunetti Dugan Stables.", scratched:false, expertPick:false,
+        stats:{ bris:86, latePace:84, starts:5, record:"3-1-1", lastPrepFinish:"2nd (UAE Derby G2)", sire:"Not This Time", distanceRating:"C (Not This Time is Giant's Causeway/speed line)", pedigreeNote:"Not This Time sire excels at sprint-to-mile. All 5 races at Meydan in Dubai — never raced in the US. Major questions about adapting to Churchill Downs.", winTrend:"⚠️ 1 of 5 boxes — BRIS 86 is among the lowest; Post 17 never won Derby", keyRisk:"Post 17: 0 all-time Derby winners. BRIS 86 below threshold. All races abroad at Meydan." }},
+      { post:18, name:"Further Ado",     jockey:"J. Velazquez",   trainer:"B. Cox",      odds:"6/1",  fdOdds:"+600",  beyer:106, style:"S", note:"Field-best Beyer 106 from 11-length G1 Blue Grass win. Brad Cox's 2nd entry. Spendthrift Farm. Velazquez 3-time Derby winner. Gun Runner sire (3rd in 2016 Derby). Demling has pause on the Beyer spike.", scratched:false, expertPick:true,
+        stats:{ bris:106, latePace:104, starts:6, record:"3-1-1", lastPrepFinish:"1st (Blue Grass G1)", sire:"Gun Runner", distanceRating:"A (Gun Runner was 3rd in 2016 Derby)", pedigreeNote:"Gun Runner sire finished 3rd in the 2016 Derby and excels at 1¼m. Dam by Tapit adds stamina. Further Ado's Blue Grass figure (107 Equibase) ties Renegade for field best.", winTrend:"✅ 4 of 5 boxes — field-best Beyer; caution on 11-length spike figure", keyRisk:"Beyer spike from 104 to 106/107 in Blue Grass is suspicious. Blue Grass has not produced a Derby winner since 1991. Wide draw post 18." }},
+      { post:19, name:"Golden Tempo",    jockey:"J. Ortiz",       trainer:"C. DeVaux",   odds:"25/1", fdOdds:"+2500", beyer:100, style:"C", note:"Keeler Johnson's longshot pick. Ascending BRIS Speed figures: 84→88→91→100. Curlin sire. Louisiana Derby 3rd. Cherie DeVaux trainer. Last-to-first running style. Wide post suits his style.", scratched:false, expertPick:false,
+        stats:{ bris:100, latePace:103, starts:4, record:"2-0-2", lastPrepFinish:"3rd (Louisiana Derby G2)", sire:"Curlin", distanceRating:"A (Curlin was 2nd in 2007 Derby)", pedigreeNote:"Curlin sire finished 2nd in the Derby and is a legendary stamina sire. Ascending speed figures (84→88→91→100) are a powerful positive trend.", winTrend:"✅ 3 of 5 boxes — ascending figures + strong late pace are positive", keyRisk:"3rd in final prep. Only 4 career starts (just meets experience bar). Trainer DeVaux is first-time Derby trainer." }},
+      { post:20, name:"Fulleffort",      jockey:"T. Gaffalione",  trainer:"B. Cox",      odds:"SCR",  fdOdds:"SCR",   beyer:90,  style:"S", note:"SCRATCHED Thursday with ankle/bone chip injury. Brad Cox's 3rd entry was scratched; Ocelli drew in. St. Elias Stable / Starlight Racing.", scratched:true,  expertPick:false,
+        stats:{ bris:90, latePace:89, starts:8, record:"3-2-1", lastPrepFinish:"2nd", sire:"Not This Time", distanceRating:"C", pedigreeNote:"N/A — scratched", winTrend:"N/A — scratched", keyRisk:"Scratched — bone chip in ankle." }},
+      { post:21, name:"Great White",     jockey:"A. Achard",      trainer:"J. Ennis",    odds:"41/1", fdOdds:"+4100", beyer:83,  style:"E", note:"Drew in after Silent Tactic scratch. Three Chimneys Farm homebred. Longshot, limited prep race exposure at this level.", scratched:false, expertPick:false,
+        stats:{ bris:83, latePace:80, starts:5, record:"2-1-1", lastPrepFinish:"3rd (Lexington G2)", sire:"Volatile", distanceRating:"C- (Volatile is a pure sprinter)", pedigreeNote:"Volatile sire is a sprinter — this is the most sprint-bred horse in the entire field. 1¼m will be a major challenge.", winTrend:"⚠️ 1 of 5 boxes — BRIS 83 and sprint pedigree fail key criteria", keyRisk:"Sprinter sire Volatile, BRIS 83, and 3rd in prep. Drew in as late alternate — lacks classic prep." }},
+      { post:22, name:"Ocelli",          jockey:"J. Ramos",       trainer:"D.W. Beckman",odds:"50/1", fdOdds:"+5000", beyer:80,  style:"S", note:"Drew in after Fulleffort scratch. Finished 3rd in G2 Wood Memorial at Aqueduct. $12,000 purchase price — massive underdog. Ashley Durr / Anthony Tate owner.", scratched:false, expertPick:false,
+        stats:{ bris:80, latePace:84, starts:6, record:"2-2-1", lastPrepFinish:"3rd (Wood Memorial G2)", sire:"Connect", distanceRating:"C+ (Connect is Curlin-line, has stamina)", pedigreeNote:"Connect sire is a Curlin son — some distance ability through bloodline. But BRIS 80 is the lowest active figure in the field. $12K purchase — longest shot.", winTrend:"⚠️ 1 of 5 boxes — BRIS 80 fails threshold; drew in as last alternate", keyRisk:"BRIS 80 — lowest active figure in field. $12,000 purchase price. Drew in as 2nd alternate. 50-1." }},
+      { post:23, name:"Robusta",         jockey:"E. Jaramillo",   trainer:"D. O'Neill",  odds:"50/1", fdOdds:"+5000", beyer:84,  style:"E", note:"Drew in after Right to Party scratch. O'Neill barn (won Derby w/ I'll Have Another & Nyquist). Sire Accelerate won Breeders' Cup Classic. Calumet Farm homebred.", scratched:false, expertPick:false,
+        stats:{ bris:84, latePace:82, starts:5, record:"2-1-1", lastPrepFinish:"2nd (Sam F. Davis)", sire:"Accelerate", distanceRating:"B (Accelerate won Breeders' Cup Classic at 1¼m)", pedigreeNote:"Accelerate sire won the Breeders' Cup Classic — top-tier classic distance pedigree. But Robusta's own figures are well below field average.", winTrend:"⚠️ 2 of 5 boxes — good pedigree, BRIS 84 fails threshold", keyRisk:"BRIS 84 fails winners' threshold. Drew in as 1st alternate. But O'Neill barn has won the Derby twice." }},
+    ]
+  }
+};
+
+const betTypes = {
+  win:      { label:"Win",            slots:1, minBet:2,    desc:"Pick one horse to finish 1st. Pays only if your horse wins. Min $2.",                                       slotLabels:["Win horse"],                               race:"Race 12 – Kentucky Derby" },
+  place:    { label:"Place",          slots:1, minBet:2,    desc:"Pick one horse to finish 1st or 2nd. Lower payout than Win, but higher probability. Min $2.",              slotLabels:["Horse"],                                   race:"Race 12 – Kentucky Derby" },
+  show:     { label:"Show",           slots:1, minBet:2,    desc:"Pick one horse to finish 1st, 2nd, or 3rd. Safest straight wager, smallest payout. Min $2.",               slotLabels:["Horse"],                                   race:"Race 12 – Kentucky Derby" },
+  winplace: { label:"Win/Place/Show", slots:1, minBet:2,    desc:"Bet the same horse to Win, Place, AND Show — three separate $2 tickets on one horse. Total $6 minimum.",   slotLabels:["Horse"],                                   race:"Race 12 – Kentucky Derby" },
+  exacta:   { label:"Exacta",         slots:2, minBet:2,    desc:"Pick 1st and 2nd finishers in exact order. Box it to cover both orders (doubles cost). Min $2 straight.",  slotLabels:["1st place","2nd place"],                   race:"Race 12 – Kentucky Derby" },
+  trifecta: { label:"Trifecta",       slots:3, minBet:0.50, desc:"Pick 1st, 2nd, and 3rd finishers in exact order. Min $0.50. Box = 6 combos (6× cost).",                    slotLabels:["1st place","2nd place","3rd place"],       race:"Race 12 – Kentucky Derby" },
+  daily:    { label:"Daily Double",   slots:2, minBet:1,    desc:"Pick the winner of Race 11 (American Turf) AND Race 12 (Kentucky Derby). Min $1.",                         slotLabels:["Race 11 winner","Race 12 (Derby) winner"], race:"Race 11 + Race 12" },
+};
+
+let currentRace = 9;
+let currentBetType = 'win';
+let currentBuilderRace = 9;
+let betSlip = [];
+
+// ─────────────────────────────────────────
+// SHARP MONEY DATA
+// ─────────────────────────────────────────
+const sharpMoney = {
+  9: {
+    label: "Race 9 · Churchill Downs Stakes (G2) · Post ~4:45 PM ET",
+    horses: [
+      { post:2, name:"Jaco", jt:"Castellano / Brown", from:"3/1", to:"5/2", fdTo:"+250", signal:"steam", pct:17,
+        detail:"Brown/Castellano combo attracting steady money all morning. Most-bet horse in the race on FanDuel early pools. Post 2 is ideal in a sprint — no concerns.",
+        action:"act", actionLabel:"Bet now — shortening fast" },
+      { post:4, name:"Patriot Act", jt:"Ortiz Jr. / Pletcher", from:"4/1", to:"7/2", fdTo:"+350", signal:"steam", pct:12,
+        detail:"Pletcher/Ortiz firing on Derby Day. Steady compression throughout the morning. Vosburgh winner — sharp money respects the form.",
+        action:"act", actionLabel:"Bet before it shortens further" },
+      { post:3, name:"Blazing Sword", jt:"Saez / Cox", from:"5/1", to:"6/1", fdTo:"+600", signal:"drifting", pct:17,
+        detail:"Opening as co-2nd choice but money has drifted. Possible 8-week layoff concern. Cox barn not firing as aggressively here as in the Derby races.",
+        action:"fade", actionLabel:"Potential overlay if wins" },
+      { post:1, name:"Shaquille", jt:"Gaffalione / Pletcher", from:"9/2", to:"4/1", fdTo:"+400", signal:"watch", pct:10,
+        detail:"Some movement toward Shaquille — rail in a sprint is actually not a disadvantage like in routes. Worth monitoring.",
+        action:"wait", actionLabel:"Watch final 10 min" },
+      { post:6, name:"Cactus Jack", jt:"Smith / Baffert", from:"6/1", to:"7/1", fdTo:"+700", signal:"drifting", pct:14,
+        detail:"Baffert name brings public money but the Dubai form hasn't convinced sharp bettors. Drifting slowly — possible value for exotic use.",
+        action:"fade", actionLabel:"Drifting — check at post" },
+      { post:5, name:"Lucky Penny", jt:"Prat / O'Neill", from:"8/1", to:"8/1", fdTo:"+800", signal:"neutral", pct:0,
+        detail:"Stable price — no significant sharp action in either direction. Closing style means value depends entirely on pace scenario.",
+        action:"wait", actionLabel:"No sharp signal yet" },
+    ]
+  },
+  10: {
+    label: "Race 10 · Pat Day Mile (G2) · Post ~5:30 PM ET",
+    horses: [
+      { post:1, name:"Paladin", jt:"Ortiz Jr. / Pletcher", from:"5/2", to:"2/1", fdTo:"+200", signal:"steam", pct:20,
+        detail:"Biggest mover in the Pat Day Mile. Pletcher/Ortiz is the premier combo and sharp bettors respect Paladin's ceiling. CBS Sports called him best bet of the undercard. Compress from +250 to +200 is very significant.",
+        action:"act", actionLabel:"Strongest steam in this race" },
+      { post:2, name:"Express Kid", jt:"Saez / Cox", from:"7/2", to:"3/1", fdTo:"+300", signal:"steam", pct:14,
+        detail:"Cox barn attracting steady action. Sunland Park Derby form was excellent. Consistent move toward him all morning — Cox horses fire on big days.",
+        action:"act", actionLabel:"Back the Cox barn" },
+      { post:4, name:"Solid Ground", jt:"Castellano / Delgado", from:"6/1", to:"5/1", fdTo:"+500", signal:"watch", pct:17,
+        detail:"Delgado barn (Mage, 2023 Derby) has been red-hot and some sharp money has noticed. Castellano knows this track inside out. Worth a close watch.",
+        action:"wait", actionLabel:"Monitor — may compress more" },
+      { post:3, name:"Ironclad", jt:"Prat / Brown", from:"4/1", to:"5/1", fdTo:"+500", signal:"drifting", pct:20,
+        detail:"Brown/Prat drifting despite being a formidable combo — the Louisiana Derby 4th has damaged confidence. Sharp money appears to be going elsewhere in the race.",
+        action:"fade", actionLabel:"Drifting — potential overlay" },
+      { post:5, name:"Stark Contrast", jt:"Smith / Glatt", from:"8/1", to:"9/1", fdTo:"+900", signal:"drifting", pct:11,
+        detail:"Light drift. No significant sharp action. Closer needs pace that may not materialize if Ironclad and Long Gone are docile early.",
+        action:"wait", actionLabel:"Stable — no strong signal" },
+    ]
+  },
+  11: {
+    label: "Race 11 · American Turf (G2) · Post ~6:10 PM ET",
+    horses: [
+      { post:2, name:"Capri Sun", jt:"Prat / Brown", from:"7/2", to:"3/1", fdTo:"+300", signal:"steam", pct:14,
+        detail:"Chad Brown / Flavien Prat is the dominant turf combination in the US right now. Won the G2 Elkhorn last out with the top late pace rating (110) in the field. Steady steam all morning — this is sharp money.",
+        action:"act", actionLabel:"Bet now — Brown/Prat firing" },
+      { post:5, name:"Emerald Isle", jt:"Saez / Cox", from:"4/1", to:"7/2", fdTo:"+350", signal:"steam", pct:12,
+        detail:"Cox's top turf runner attracting consistent action. Won the G3 Appleton. Multiple Grade 2 placings in Europe and US. Steady compression throughout the morning.",
+        action:"act", actionLabel:"Good turf value at 7/2" },
+      { post:1, name:"Dornoch Lad", jt:"Ortiz Jr. / Pletcher", from:"3/1", to:"3/1", fdTo:"+300", signal:"neutral", pct:0,
+        detail:"Holding at morning line. Class of the field but no major sharp action moving the price. Public money is spreading across the top three here.",
+        action:"wait", actionLabel:"Stable — no significant move" },
+      { post:3, name:"Riviera Moon", jt:"Velazquez / McGaughey", from:"5/1", to:"6/1", fdTo:"+600", signal:"drifting", pct:17,
+        detail:"Some drift — money appears to be going to the Chad Brown runner (Capri Sun). Velazquez/McGaughey still a respected combo but not attracting sharp money today.",
+        action:"fade", actionLabel:"Drift signal — exotic only" },
+      { post:4, name:"Danube Blue", jt:"Castellano / Ward", from:"6/1", to:"5/1", fdTo:"+500", signal:"watch", pct:17,
+        detail:"Quiet but notable move. European import with Dubawi pedigree. Churchill Downs regulars are tracking this one. Small but consistent compression — worth monitoring.",
+        action:"wait", actionLabel:"Value play if it continues" },
+    ]
+  },
+  12: {
+    label: "Race 12 · 152nd Kentucky Derby (G1) · Post 6:57 PM ET",
+    horses: [
+      { post:8,  name:"So Happy",        jt:"Smith / Glatt",      from:"15/1", to:"5/1",  fdTo:"+500",  signal:"steam",    pct:67,
+        detail:"THE sharpest move of race week. So Happy plummeted from 15-1 to 5-1 — a 67% price compression. Sustained public and sharp action all week on the Santa Anita Derby winner. Mike Smith has 28 Derby mounts. The only concern is the Runhappy sire. This is the most-bet horse race-day morning.",
+        action:"act", actionLabel:"Heaviest steam in the race" },
+      { post:6,  name:"Commandment",     jt:"Saez / Cox",         from:"6/1",  to:"5/1",  fdTo:"+500",  signal:"steam",    pct:17,
+        detail:"Into Mischief x Orb dam — two Derby-winning bloodlines. Won 4 straight including G1 Florida Derby. Sharp money has compressed him from 6-1 to 5-1 morning of. Co-favorite with Renegade and So Happy. Brad Cox handling is a major positive signal.",
+        action:"act", actionLabel:"Bet before it shortens again" },
+      { post:18, name:"Further Ado",     jt:"Velazquez / Cox",    from:"6/1",  to:"6/1",  fdTo:"+600",  signal:"watch",    pct:0,
+        detail:"Holding at 6-1 but was 8-1 earlier in the week — compressed significantly post-Blue Grass then stabilized. Field-best Beyer 106. Velazquez is a 3-time Derby winner. Watch for a final-minute compression at the tote.",
+        action:"wait", actionLabel:"Watch last 5 min at tote" },
+      { post:15, name:"Emerging Market", jt:"Prat / Brown",       from:"15/1", to:"9/1",  fdTo:"+900",  signal:"steam",    pct:40,
+        detail:"Steady compression from 15-1 to 9-1. Chad Brown rarely runs a horse unless it's live. Flavien Prat riding. Undefeated in 2 starts. The market respects Brown/Prat deeply — this money is at least partially sharp.",
+        action:"act", actionLabel:"Value at 9-1 with smart money" },
+      { post:12, name:"Chief Wallabee",  jt:"Alvarado / Mott",    from:"8/1",  to:"7/1",  fdTo:"+700",  signal:"watch",    pct:12,
+        detail:"Modest compression from 8-1 to 7-1. Same connections (Bill Mott / Junior Alvarado) as 2025 Derby winner Sovereignty. Blinkers added. New equipment change plus these connections = major sharp watch signal.",
+        action:"act", actionLabel:"Strong connections backing it" },
+      { post:1,  name:"Renegade",        jt:"Ortiz Jr. / Pletcher",from:"4/1", to:"5/1",  fdTo:"+500",  signal:"drifting", pct:20,
+        detail:"Opened as 4-1 morning-line favorite but has drifted to 5-1 after drawing the rail (Post 1). No Derby winner from Post 1 since Ferdinand in 1986. Market is penalizing the post. Sharp bettors fading the rail despite talent.",
+        action:"fade", actionLabel:"Drifting on post — be cautious" },
+      { post:10, name:"Wonder Dean",     jt:"Sakai / Takayanagi", from:"30/1", to:"22/1", fdTo:"+2200", signal:"watch",    pct:27,
+        detail:"Quiet compression from 30-1 to 22-1 on the Japanese invader. Deep Derby money tracking him. Post 10 is historically one of the best gates at Churchill. Smart money may be hedging with small bets on the upside.",
+        action:"wait", actionLabel:"Exotic inclusion at price" },
+      { post:19, name:"Golden Tempo",    jt:"J. Ortiz / DeVaux",  from:"30/1", to:"25/1", fdTo:"+2500", signal:"watch",    pct:17,
+        detail:"Modest compression. TwinSpires analysts' top longshot pick. Ascending BRIS figures. Curlin sire. If this continues to 20-1, that's a significant sharp signal on a genuine longshot — include on all exotic tickets.",
+        action:"wait", actionLabel:"Watch — experts love this price" },
+      { post:7,  name:"Danon Bourbon",   jt:"Nishimura / Ikezoe", from:"20/1", to:"14/1", fdTo:"+1400", signal:"watch",    pct:30,
+        detail:"Notable compression on the undefeated Japanese invader. 30% move from opening odds. First US race is a huge question mark but the market is taking him seriously.",
+        action:"wait", actionLabel:"Monitor — unbeaten horse" },
+      { post:14, name:"Potente",         jt:"Hernandez / Baffert",from:"20/1", to:"21/1", fdTo:"+2100", signal:"neutral",  pct:0,
+        detail:"Stable around morning line. Baffert name attracts some public money but no significant sharp compression. Into Mischief sire. Faded to 2nd in Santa Anita Derby.",
+        action:"wait", actionLabel:"No sharp signal" },
+      { post:11, name:"Incredibolt",     jt:"Torres / R. Mott",   from:"20/1", to:"24/1", fdTo:"+2400", signal:"drifting", pct:17,
+        detail:"Slight drift. 7-week layoff appears to be weighing on public confidence. Churchill specialists know this horse wins here — worth using in exotics despite the drift.",
+        action:"fade", actionLabel:"Possible overlay — exotic use" },
+      { post:4,  name:"Litmus Test",     jt:"Garcia / Baffert",   from:"30/1", to:"28/1", fdTo:"+2800", signal:"neutral",  pct:7,
+        detail:"Minimal move. Baffert second string. Public money going to Potente (his other entry). No sharp signals here.",
+        action:"wait", actionLabel:"No signal" },
+    ]
+  }
+};
+
+
+// ─────────────────────────────────────────
+// POST COLORS
+// ─────────────────────────────────────────
+function postColors(post) {
+  if (post <= 5)  return { bg:"#E6F1FB", c:"#1A3A5C" };
+  if (post <= 10) return { bg:"#EFF8F2", c:"#1A5C2A" };
+  if (post <= 15) return { bg:"#FDF8E8", c:"#7A5A00" };
+  return { bg:"#FDF0F0", c:"#7A1010" };
+}
+
+// ─────────────────────────────────────────
+// RENDER RACE
+// ─────────────────────────────────────────
+function renderRace(num) {
+  const r = races[num];
+  if (!r) return;
+
+  const isDerby = num === 12;
+
+  let html = `<div class="race-summary">
+    <div class="race-summary-left">
+      <h2>${r.title}: ${r.name}</h2>
+      <p>${r.note}</p>
+      <div class="race-chips">
+        <span class="chip">${r.distance}</span>
+        <span class="chip">${r.time}</span>
+        ${isDerby ? '<span class="chip chip-rose">Full field · 19 active + 4 scratched</span>' : ''}
+      </div>
+    </div>
+    <div class="race-summary-right">
+      <div class="purse-label">Purse</div>
+      <div class="purse-amount">${r.purse}</div>
+    </div>
+  </div>`;
+
+  html += `<div class="horse-grid">`;
+  r.horses.forEach((h, idx) => {
+    const pc = postColors(h.post);
+    const scr = h.scratched;
+    const ep  = h.expertPick && !scr;
+    const s   = h.stats || {};
+    const cardId = `card_${num}_${idx}`;
+    const panelId = `panel_${num}_${idx}`;
+    const btnId = `btn_${num}_${idx}`;
+
+    // Score the BRIS rating
+    const brisColor = !s.bris ? '' : s.bris >= 100 ? 'good' : s.bris >= 95 ? 'warn' : 'bad';
+    const lateColor = !s.latePace ? '' : s.latePace >= 100 ? 'good' : s.latePace >= 95 ? 'warn' : 'bad';
+    const startsColor = !s.starts ? '' : s.starts >= 5 ? 'good' : s.starts >= 3 ? 'warn' : 'bad';
+    const trendIsGood = s.winTrend && s.winTrend.startsWith('✅');
+
+    html += `<div class="horse-card ${scr?'scratched':''} ${ep?'expert-pick':''}">
+      <div class="horse-top">
+        <div class="post-circle" style="background:${pc.bg};color:${pc.c}">#${h.post}</div>
+        <div class="horse-name-block">
+          <div class="horse-name">
+            ${h.name}
+            ${scr ? '<span class="scr-tag">SCRATCHED</span>' : ''}
+            ${ep  ? '<span class="star-tag">⭐ Expert pick</span>' : ''}
+          </div>
+          <div class="horse-jt">${h.jockey} · ${h.trainer}</div>
+        </div>
+      </div>
+      <div class="odds-row">
+        <span class="odds-chip odds-fd">FanDuel: ${h.fdOdds}</span>
+        <span class="odds-chip odds-ml">ML: ${h.odds}</span>
+        ${h.beyer ? `<span class="odds-chip odds-beyer">Beyer ${h.beyer}</span>` : (s.bris ? `<span class="odds-chip odds-beyer">BRIS ${s.bris}</span>` : '')}
+        <span class="odds-chip odds-style">${h.style==='E'?'Early speed':h.style==='S'?'Stalker':'Closer'}</span>
+      </div>
+      <div class="horse-note">${h.note}</div>`;
+
+    if (s.bris !== undefined && !scr) {
+      html += `
+      <button class="expand-btn" id="${btnId}" onclick="toggleStats('${panelId}','${btnId}')">
+        <span>📊 View handicapping stats</span>
+        <span class="arrow">▼</span>
+      </button>
+      <div class="stats-panel" id="${panelId}">
+        <div class="${trendIsGood?'win-trend good':'win-trend warn'}">${s.winTrend||'—'}</div>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-item-label">BRIS Speed</div>
+            <div class="stat-item-val ${brisColor}">${s.bris || '—'} ${s.bris>=100?'✅':s.bris>=95?'⚠️':'❌'}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item-label">Late Pace</div>
+            <div class="stat-item-val ${lateColor}">${s.latePace || '—'} ${s.latePace>=100?'✅':s.latePace>=95?'⚠️':'❌'}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item-label">Career Starts</div>
+            <div class="stat-item-val ${startsColor}">${s.starts || '—'} ${s.starts>=5?'✅':s.starts>=3?'⚠️':'❌'}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item-label">Record</div>
+            <div class="stat-item-val">${s.record || '—'}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item-label">Final Prep Finish</div>
+            <div class="stat-item-val ${s.lastPrepFinish&&s.lastPrepFinish.includes('1st')?'good':s.lastPrepFinish&&(s.lastPrepFinish.includes('2nd')||s.lastPrepFinish.includes('3rd'))?'warn':'bad'}">${s.lastPrepFinish || '—'}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item-label">Distance Fit</div>
+            <div class="stat-item-val ${s.distanceRating&&s.distanceRating.startsWith('A')?'good':s.distanceRating&&s.distanceRating.startsWith('B')?'warn':'bad'}">${s.distanceRating || '—'}</div>
+          </div>
+          <div class="stat-item stat-full">
+            <div class="stat-item-label">Sire / Pedigree</div>
+            <div class="stat-item-val" style="font-size:12px;font-weight:400;">${s.sire ? `<strong>${s.sire}</strong> — ${s.pedigreeNote}` : '—'}</div>
+          </div>
+        </div>
+        <div class="key-risk"><strong>Key risk:</strong> ${s.keyRisk || '—'}</div>
+      </div>`;
+    }
+
+    html += `</div>`;
+  });
+  html += `</div>`;
+
+  if (isDerby) {
+    html += `<div class="field-note">
+      <strong>Scratches summary:</strong>
+      Right to Party (P5) — scratched Sat morning ·
+      Silent Tactic (P13) — scratched Wed with foot injury ·
+      Fulleffort (P20) — scratched Thu with bone chip ·
+      The Puma (P9) — scratched Sat morning with leg swelling/infection ·
+      Alternates drawn in: Great White (P21), Ocelli (P22), Robusta (P23)
+    </div>`;
+  }
+
+  document.getElementById('raceContent').innerHTML = html;
+}
+
+function selectRace(num, btn) {
+  currentRace = num;
+  document.querySelectorAll('.race-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderRace(num);
+}
+
+// ─────────────────────────────────────────
+// BET BUILDER
+// ─────────────────────────────────────────
+function selectBuilderRace(num, btn) {
+  currentBuilderRace = num;
+  document.querySelectorAll('#builderRaceSel .race-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const names = {9:'Race 9 (Churchill Downs Stakes)',10:'Race 10 (Pat Day Mile)',11:'Race 11 (American Turf)',12:'Race 12 (Kentucky Derby)'};
+  document.getElementById('builderHeader').textContent = 'Bet Builder — ' + names[num];
+  // Only show Daily Double for races that support it (11+12)
+  document.querySelectorAll('#betTypeBar .bet-type-btn').forEach(b => {
+    if (b.textContent.trim() === 'Daily Double') b.style.display = num >= 11 ? '' : 'none';
+  });
+  // Reset to win if current type is daily and race < 11
+  if (currentBetType === 'daily' && num < 11) {
+    currentBetType = 'win';
+    document.querySelectorAll('#betTypeBar .bet-type-btn').forEach(b => {
+      b.classList.toggle('active', b.textContent.trim() === 'Win');
+    });
+  }
+  renderBetBuilder();
+}
+
+function horseOptions(raceNum, includeScratched) {
+  const r = races[raceNum];
+  let opts = `<option value="">— Select horse —</option>`;
+  r.horses.forEach(h => {
+    if (!h.scratched || includeScratched) {
+      const label = `${h.name} (#${h.post}) · ${h.odds}`;
+      opts += `<option value="${h.name} (#${h.post})">${label}</option>`;
+    }
+  });
+  return opts;
+}
+
+function prevRaceOptions(raceNum) {
+  // For daily double, get horses from the race before current
+  const prev = raceNum - 1;
+  if (!races[prev]) return horseOptions(raceNum, false);
+  return horseOptions(prev, false);
+}
+
+function renderBetBuilder() {
+  const bt = betTypes[currentBetType];
+  const rn = currentBuilderRace;
+  let slotsHtml = '';
+  for (let i = 0; i < bt.slots; i++) {
+    let opts;
+    if (currentBetType === 'daily' && i === 0) {
+      opts = prevRaceOptions(rn);
+    } else {
+      opts = horseOptions(rn, false);
+    }
+    slotsHtml += `<div class="form-row">
+      <span class="form-label">${bt.slotLabels[i]}:</span>
+      <select class="form-select" id="slot_${i}">${opts}</select>
+    </div>`;
+  }
+
+  const wpsCost = currentBetType === 'winplace' ? (bt.minBet * 3).toFixed(2) : null;
+  const raceLabel = {9:'R9',10:'R10',11:'R11',12:'R12'}[rn] || `R${rn}`;
+
+  document.getElementById('betForm').innerHTML = `
+    <div class="bet-desc">${bt.desc}</div>
+    ${slotsHtml}
+    <div class="form-row">
+      <span class="form-label">Wager ($):</span>
+      <input class="form-input" type="number" id="betAmt" value="${bt.minBet}" min="${bt.minBet}" step="${bt.minBet}">
+      <span style="font-size:11px;color:var(--ink-light);">min $${bt.minBet}</span>
+    </div>
+    ${wpsCost ? `<div style="font-size:12px;color:var(--ink-light);margin-bottom:8px;">Total for Win + Place + Show = $${wpsCost} minimum</div>` : ''}
+    <div class="total-line">
+      <span>Total wager</span>
+      <span id="totalDisplay">$${bt.minBet.toFixed(2)}</span>
+    </div>
+    <button class="add-btn" onclick="addBet()">+ Add to Bet Slip</button>
+  `;
+
+  document.getElementById('betAmt').addEventListener('input', function() {
+    const v = parseFloat(this.value) || 0;
+    const total = currentBetType === 'winplace' ? v * 3 : v;
+    document.getElementById('totalDisplay').textContent = '$' + total.toFixed(2);
+  });
+}
+
+
+
+function selectBetType(type, btn) {
+  currentBetType = type;
+  document.querySelectorAll('.bet-type-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderBetBuilder();
+}
+
+function addBet() {
+  const bt = betTypes[currentBetType];
+  const amount = parseFloat(document.getElementById('betAmt').value) || 0;
+  if (amount < bt.minBet) { alert(`Minimum wager for ${bt.label} is $${bt.minBet}.`); return; }
+
+  let selections = [];
+  for (let i = 0; i < bt.slots; i++) {
+    const sel = document.getElementById('slot_' + i);
+    if (!sel || !sel.value) { alert('Please select all positions.'); return; }
+    selections.push(sel.value);
+  }
+
+  const total = currentBetType === 'winplace' ? amount * 3 : amount;
+  const raceNames = {9:'Race 9',10:'Race 10',11:'Race 11',12:'Race 12 (Derby)'};
+  const raceLabel = currentBetType === 'daily'
+    ? `R${currentBuilderRace-1}+R${currentBuilderRace}`
+    : raceNames[currentBuilderRace] || `R${currentBuilderRace}`;
+  betSlip.push({ type: bt.label, selections, amount, total, race: raceLabel });
+  updateSlipCounts();
+  renderSlip('slipItems', 'slipFooter');
+  renderSlip('slipItems2', 'slipFooter2');
+  alert(`✅ Added to slip: ${bt.label} — ${selections.join(' → ')}`);
+}
+
+// ─────────────────────────────────────────
+// SHARP MONEY
+// ─────────────────────────────────────────
+let currentSmRace = 12;
+
+function selectSmRace(num, btn) {
+  currentSmRace = num;
+  document.querySelectorAll('.sm-race-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSharpMoney();
+}
+
+function renderSharpMoney() {
+  const d = sharpMoney[currentSmRace];
+  const el = document.getElementById('smContent');
+  if (!el || !d) return;
+
+  // Sort: steam first, then watch, then neutral, then drifting
+  const order = { steam:0, watch:1, neutral:2, drifting:3 };
+  const sorted = [...d.horses].sort((a,b) => order[a.signal] - order[b.signal]);
+
+  let html = `<div style="font-size:12px;color:var(--ink-light);margin-bottom:10px;">${d.label}</div>`;
+  html += `<div class="sm-grid">`;
+
+  sorted.forEach(h => {
+    const pct = h.pct || 0;
+    const barWidth = Math.min(100, pct * 1.5); // scale for visual
+    const actionColors = { act:'act', fade:'fade', wait:'wait' };
+
+    html += `<div class="sm-card ${h.signal}">
+      <div class="sm-card-top">
+        <div class="sm-horse-info">
+          <div class="sm-horse-name">#${h.post} ${h.name}</div>
+          <div class="sm-post-jt">${h.jt}</div>
+        </div>
+        <span class="sm-signal-badge ${h.signal}">${
+          h.signal === 'steam' ? '🔥 Steam' :
+          h.signal === 'drifting' ? '↗ Drifting' :
+          h.signal === 'watch' ? '👁 Watch' : '— Stable'
+        }</span>
+      </div>
+      <div class="sm-odds-track">
+        <span class="sm-odds-from">${h.from} ML</span>
+        <span class="sm-arrow">→</span>
+        <span class="sm-odds-to ${h.signal}">${h.to} now</span>
+        <span style="font-size:11px;color:var(--ink-light);">FD: ${h.fdTo}</span>
+      </div>
+      ${pct > 0 ? `
+      <div style="font-size:10px;color:var(--ink-light);margin-bottom:3px;">${pct}% price compression</div>
+      <div class="sm-move-bar">
+        <div class="sm-move-fill ${h.signal}" style="width:${barWidth}%"></div>
+      </div>` : ''}
+      <div class="sm-detail">${h.detail}</div>
+      <span class="sm-action-tag ${actionColors[h.action]}">${h.actionLabel}</span>
+    </div>`;
+  });
+
+  html += `</div>`;
+  el.innerHTML = html;
+}
+
+
+// ─────────────────────────────────────────
+// BET SLIP
+// ─────────────────────────────────────────
+function renderSlip(itemsId, footerId) {
+  const el = document.getElementById(itemsId);
+  const ft = document.getElementById(footerId);
+  if (!el) return;
+
+  if (betSlip.length === 0) {
+    el.innerHTML = '<div class="slip-empty">No bets added yet.</div>';
+    ft.innerHTML = '';
+    return;
+  }
+
+  let total = 0;
+  let html = '';
+  betSlip.forEach((b, i) => {
+    total += b.total;
+    html += `<div class="slip-item">
+      <div class="slip-item-left">
+        <div class="slip-item-type">${b.type} · ${b.race}</div>
+        <div class="slip-item-horses">${b.selections.join(' → ')}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <div class="slip-item-amount">$${b.total.toFixed(2)}</div>
+        <button class="remove-btn" onclick="removeBet(${i},'${itemsId}','${footerId}')">×</button>
+      </div>
+    </div>`;
+  });
+
+  el.innerHTML = html;
+  ft.innerHTML = `<div class="slip-total"><span>Total wager</span><span>$${total.toFixed(2)}</span></div>
+    <div class="slip-disclaimer">Payouts are pari-mutuel and determined at race time. For planning purposes only. Bet responsibly. 21+.</div>`;
+}
+
+function removeBet(i, itemsId, footerId) {
+  betSlip.splice(i, 1);
+  updateSlipCounts();
+  renderSlip('slipItems', 'slipFooter');
+  renderSlip('slipItems2', 'slipFooter2');
+}
+
+function updateSlipCounts() {
+  const n = betSlip.length;
+  const badge = n > 0 ? `(${n})` : '';
+  const el1 = document.getElementById('slipCountBadge');
+  const el2 = document.getElementById('slipCount2');
+  const el3 = document.getElementById('slipCount3');
+  if (el1) el1.textContent = badge;
+  if (el2) el2.textContent = n + (n === 1 ? ' bet' : ' bets');
+  if (el3) el3.textContent = n + (n === 1 ? ' bet' : ' bets');
+}
+
+// ─────────────────────────────────────────
+// TAB SWITCHING
+// ─────────────────────────────────────────
+function switchTab(tab, btn) {
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else document.querySelector(`[onclick*="'${tab}'"]`).classList.add('active');
+  document.getElementById('panel-' + tab).classList.add('active');
+  if (tab === 'builder')  renderBetBuilder();
+  if (tab === 'betslip')  { renderSlip('slipItems2', 'slipFooter2'); }
+  if (tab === 'experts')  renderExpertPicks();
+  if (tab === 'sharp')    renderSharpMoney();
+}
+
+// ─────────────────────────────────────────
+// EXPERT PICKS DATA
+// ─────────────────────────────────────────
+const expertPicks = {
+  9: {
+    label: "Race 9 · Churchill Downs Stakes (G2) · 6F Dirt",
+    win: [
+      { source:"Covers.com", expert:"R. Criscola", featured:true,
+        horses:[{tag:'win',name:'#2 Jaco (+300)'}],
+        detail:"Jaco is the class of this field. Chad Brown sends out a Palisades Credit Union Sprint winner that has been training brilliantly. No. 1 post is actually fine in sprints — no bias at Churchill over 6 furlongs.",
+        combo:null },
+      { source:"TwinSpires / BRISnet", expert:"V. Hanson",
+        horses:[{tag:'win',name:'#4 Patriot Act (+400)'}],
+        detail:"Pletcher/Ortiz combo is formidable at any sprint. Patriot Act won the Vosburgh G2 last fall and has been sharp in the morning. Post 4 is ideal for a stalker in a 6-furlong sprint.",
+        combo:null },
+      { source:"SpookyExpress / Handicapper Sheet", expert:"Full card",
+        horses:[{tag:'win',name:'#2 Jaco (+300)'},{tag:'win',name:'#6 Cactus Jack (+600)'}],
+        detail:"Two win contenders identified: Jaco (Brown/Prat) as the class horse, and Cactus Jack (Baffert/Smith) as the pace threat coming off a Dubai Golden Shaheen win.",
+        combo:null },
+    ],
+    place: [
+      { source:"Churchill Downs Analysts", expert:"K. Benson / J. Kristufek",
+        horses:[{tag:'place',name:'#2 Jaco'},{tag:'place',name:'#4 Patriot Act'},{tag:'place',name:'#3 Blazing Sword'}],
+        detail:"Top three for place betting: Jaco (win contender), Patriot Act (sharp Pletcher/Ortiz), and Blazing Sword returning from a freshening with G1 Breeders' Cup Sprint form.",
+        combo:null },
+    ],
+    show: [
+      { source:"TwinSpires Edge", expert:"J. Keeler Johnson",
+        horses:[{tag:'show',name:'#5 Lucky Penny (+800)'},{tag:'show',name:'#2 Jaco'},{tag:'show',name:'#4 Patriot Act'}],
+        detail:"Lucky Penny is a live closer at 8-1 — ideal show bet at price if pace is fast. Jaco and Patriot Act safe show plays. Deep closer needs hot pace but the board price makes it worthwhile.",
+        combo:null },
+    ],
+    exacta: [
+      { source:"Covers.com", expert:"R. Criscola", featured:true,
+        horses:[{tag:'win',name:'#2 Jaco'},{tag:'place',name:'#4 Patriot Act'},{tag:'place',name:'#1 Shaquille'}],
+        detail:"Exacta focus on Jaco on top. Post 4 Patriot Act has the tactical speed to secure 2nd. Also include Post 1 Shaquille who may benefit from the rail in a sprint.",
+        combo:{label:'$2 Exacta part-wheel',desc:'#2 on top / #1, #4 underneath',cost:'$4'} },
+      { source:"SpookyExpress", expert:"Full card",
+        horses:[{tag:'win',name:'#4 Patriot Act'},{tag:'win',name:'#2 Jaco'},{tag:'place',name:'#6 Cactus Jack'}],
+        detail:"Box the top two with the Baffert speedball. Cactus Jack's Dubai form translates — if he fires on US soil, this exacta hits.",
+        combo:{label:'$2 Exacta box',desc:'#2, #4, #6 (3 horses)',cost:'$12'} },
+    ],
+    trifecta: [
+      { source:"TwinSpires / BRISnet", expert:"V. Hanson", featured:true,
+        horses:[{tag:'win',name:'#2 Jaco'},{tag:'place',name:'#4 Patriot Act'},{tag:'show',name:'#1 Shaquille'},{tag:'show',name:'#3 Blazing Sword'}],
+        detail:"Key Jaco to win. Use Patriot Act for second. Spread Shaquille and Blazing Sword for third — both have the tactical speed to land on the board in a 6-furlong sprint.",
+        combo:{label:'$1 Trifecta',desc:'#2 / #4 / #1, #3',cost:'$2'} },
+      { source:"Covers.com", expert:"R. Criscola",
+        horses:[{tag:'win',name:'#2 Jaco'},{tag:'win',name:'#4 Patriot Act'},{tag:'place',name:'#1 Shaquille'},{tag:'place',name:'#6 Cactus Jack'},{tag:'show',name:'#3 Blazing Sword'},{tag:'show',name:'#5 Lucky Penny'}],
+        detail:"Box Jaco and Patriot Act for win/place, spread the deeper closers for show. Lucky Penny at 8-1 in the show position gives the ticket great value.",
+        combo:{label:'$0.50 Trifecta',desc:'#2, #4 / #1, #2, #4, #6 / #1, #2, #3, #4, #5, #6',cost:'$18'} },
+    ],
+    superfecta: [
+      { source:"TwinSpires / BRISnet", expert:"J. Mucciolo",
+        horses:[{tag:'win',name:'#2 Jaco'},{tag:'place',name:'#4 Patriot Act'},{tag:'show',name:'#1 Shaquille'},{tag:'show',name:'#6 Cactus Jack'},{tag:'value',name:'#5 Lucky Penny'},{tag:'value',name:'#3 Blazing Sword'}],
+        detail:"Structure: Jaco on top, Patriot Act 2nd, spread the remaining four in 3rd/4th. At 8-horse field depth, the superfecta needs all four covered. Lucky Penny is the key longshot inclusion.",
+        combo:{label:'$0.10 Superfecta',desc:'#2 / #4 / #1, #3, #6 / #1, #3, #5, #6, #7',cost:'$6'} },
+    ],
+    value: [
+      { source:"TwinSpires Edge", expert:"J. Keeler Johnson",
+        horses:[{tag:'value',name:'#5 Lucky Penny (+800)'},{tag:'value',name:'#6 Cactus Jack (+600)'}],
+        detail:"Lucky Penny is the standout value play. Needs a hot pace to close into — very likely given the front-runners in this field. First Churchill start is the only question. At 8-1, the board price is generous. Cactus Jack is the best-priced potential winner at 6-1 — Dubai form is legit." },
+      { source:"SpookyExpress", expert:"Full card",
+        horses:[{tag:'value',name:'#8 Night Owl (+1500)'}],
+        detail:"Night Owl at 15-1 is a speculative closer. Won his last allowance by 4 lengths in a fast-paced race. If the sprint opens up quickly — very possible with Shaquille and Litmus Test types — Night Owl could run into a big board finish." },
+    ],
+  },
+
+  10: {
+    label: "Race 10 · Pat Day Mile (G2) · 1 Mile Dirt",
+    win: [
+      { source:"CBS Sports / SportsLine", expert:"G. Menez", featured:true,
+        horses:[{tag:'win',name:'#1 Paladin (+250)'}],
+        detail:"Menez's best bet of the Derby day undercard is Crude Velocity / Paladin in the Pat Day Mile. Paladin has the highest ceiling in this field — beat Renegade in the Remsen and was unlucky in the Sam F. Davis. Pletcher/Ortiz is the premier combo on Derby Day.",
+        combo:null },
+      { source:"TwinSpires Edge", expert:"J. Keeler Johnson",
+        horses:[{tag:'win',name:'#2 Express Kid (+350)'},{tag:'win',name:'#1 Paladin (+250)'}],
+        detail:"Two win contenders: Paladin as the class horse and Express Kid as the value option. Express Kid (Cox barn) lost by a nose at Sunland Park Derby and is probably too cheap at 7/2 given his connections.",
+        combo:null },
+      { source:"Covers.com", expert:"R. Criscola",
+        horses:[{tag:'win',name:'#4 Solid Ground (+600)'}],
+        detail:"Solid Ground (Delgado barn, same trainer as Mage) wins this. He's been criminally overlooked. Delgado horses are flying on Derby week and this 6-1 price is a gift for a horse with two recent strong works.",
+        combo:null },
+    ],
+    place: [
+      { source:"Churchill Downs Analysts", expert:"K. Benson",
+        horses:[{tag:'place',name:'#1 Paladin'},{tag:'place',name:'#2 Express Kid'},{tag:'place',name:'#4 Solid Ground'}],
+        detail:"Top three for place bets. All three are in good form, in the top tier of the field, and trained by elite barns. Paladin is the class but Express Kid and Solid Ground have the right profiles to hit the board.",
+        combo:null },
+    ],
+    show: [
+      { source:"TwinSpires Edge", expert:"V. Hanson",
+        horses:[{tag:'show',name:'#5 Stark Contrast (+800)'},{tag:'show',name:'#1 Paladin'},{tag:'show',name:'#3 Ironclad (+400)'}],
+        detail:"Stark Contrast is a live show bet at 8-1. Deep closer who needs pace — has it in this field. Also consider Ironclad (Brown/Prat) who won the Lecomte. Paladin is the safest show bet in the race.",
+        combo:null },
+    ],
+    exacta: [
+      { source:"Covers.com", expert:"R. Criscola", featured:true,
+        horses:[{tag:'win',name:'#4 Solid Ground'},{tag:'win',name:'#1 Paladin'},{tag:'place',name:'#2 Express Kid'},{tag:'place',name:'#5 Stark Contrast'}],
+        detail:"Box the top four. Solid Ground and Paladin are both legitimate win candidates. Add Express Kid and Stark Contrast for coverage. These four can finish in any order.",
+        combo:{label:'$2 Exacta box',desc:'#1, #2, #4, #5 (4 horses)',cost:'$24'} },
+      { source:"TwinSpires / BRISnet", expert:"J. Mucciolo",
+        horses:[{tag:'win',name:'#1 Paladin'},{tag:'place',name:'#2 Express Kid'},{tag:'place',name:'#4 Solid Ground'},{tag:'place',name:'#3 Ironclad'}],
+        detail:"Single Paladin on top, spread Express Kid, Solid Ground, Ironclad underneath for second. Paladin has the highest potential final figure in this field.",
+        combo:{label:'$2 Exacta part-wheel',desc:'#1 / #2, #3, #4',cost:'$6'} },
+    ],
+    trifecta: [
+      { source:"TwinSpires / BRISnet", expert:"J. Mucciolo", featured:true,
+        horses:[{tag:'win',name:'#1 Paladin'},{tag:'win',name:'#4 Solid Ground'},{tag:'place',name:'#2 Express Kid'},{tag:'place',name:'#3 Ironclad'},{tag:'show',name:'#5 Stark Contrast'},{tag:'show',name:'#7 Copper Canyon'}],
+        detail:"Two-horse key on top (Paladin, Solid Ground), spread the field in 2nd and 3rd. The Pat Day Mile has produced upsets — Copper Canyon at 12-1 is a legit show candidate from the Mott barn.",
+        combo:{label:'$0.50 Trifecta',desc:'#1, #4 / #1, #2, #3, #4 / #1, #2, #3, #4, #5, #7',cost:'$22.50'} },
+      { source:"Covers.com", expert:"R. Criscola",
+        horses:[{tag:'win',name:'#4 Solid Ground'},{tag:'place',name:'#1 Paladin'},{tag:'place',name:'#2 Express Kid'},{tag:'show',name:'#5 Stark Contrast'},{tag:'show',name:'#3 Ironclad'}],
+        detail:"Solid Ground on top at the value price (6-1), Paladin and Express Kid for 2nd, closers in 3rd. This trifecta pays well if Solid Ground wins at that price.",
+        combo:{label:'$1 Trifecta',desc:'#4 / #1, #2 / #2, #3, #5',cost:'$6'} },
+    ],
+    superfecta: [
+      { source:"TwinSpires / BRISnet", expert:"V. Hanson",
+        horses:[{tag:'win',name:'#1 Paladin'},{tag:'place',name:'#4 Solid Ground'},{tag:'show',name:'#2 Express Kid'},{tag:'show',name:'#3 Ironclad'},{tag:'value',name:'#5 Stark Contrast'},{tag:'value',name:'#7 Copper Canyon'}],
+        detail:"Paladin on top, spread four in 2nd/3rd/4th positions. Copper Canyon at 12-1 is worth including in the 4th spot — Mott barn horses frequently run their best races during Derby week.",
+        combo:{label:'$0.10 Superfecta',desc:'#1 / #2, #3, #4 / #2, #3, #4, #5 / #2, #3, #4, #5, #7',cost:'$7.20'} },
+    ],
+    value: [
+      { source:"CBS Sports", expert:"G. Menez",
+        horses:[{tag:'value',name:'#4 Solid Ground (+600)'},{tag:'value',name:'#5 Stark Contrast (+800)'}],
+        detail:"Solid Ground at 6-1 is undervalued. Delgado barn is red-hot at Churchill in 2026. Stark Contrast is the high-upside closer — if the pace holds, he can run into a big number from off the pace." },
+      { source:"TwinSpires Edge", expert:"J. Keeler Johnson",
+        horses:[{tag:'value',name:'#7 Copper Canyon (+1200)'}],
+        detail:"Copper Canyon (Bill Mott, 12-1) quietly has two stake placings and the Mott barn peaks horses for big moments. Worth a small win bet and inclusion on all exotic tickets as the 3rd/4th finisher." },
+    ],
+  },
+
+  11: {
+    label: "Race 11 · American Turf (G2) · 1 1/16 Miles Turf",
+    win: [
+      { source:"TwinSpires / BRISnet", expert:"J. Mucciolo", featured:true,
+        horses:[{tag:'win',name:'#1 Dornoch Lad (+300)'}],
+        detail:"Dornoch Lad won the Pan American G2 last out and is the class of this field. Pletcher/Ortiz. Won the Turf Classic G1 at Churchill last fall — this is his best track. Post 1 on turf is acceptable with tactical speed.",
+        combo:null },
+      { source:"Covers.com", expert:"R. Criscola",
+        horses:[{tag:'win',name:'#5 Emerald Isle (+400)'}],
+        detail:"Emerald Isle (Brad Cox, post 5) won the G3 Appleton at Gulfstream and has placed in multiple Grade 2 stakes on both sides of the Atlantic. Cox's top turf runner, clear 2nd choice.",
+        combo:null },
+      { source:"Churchill Downs Analysts", expert:"K. Benson",
+        horses:[{tag:'win',name:'#2 Capri Sun (+350)'},{tag:'win',name:'#1 Dornoch Lad (+300)'}],
+        detail:"Capri Sun (Chad Brown/Flavien Prat) won the G2 Elkhorn and has the highest late pace rating (110) in the field. Brown is the top US turf trainer and Prat is riding everything for him on Derby Day.",
+        combo:null },
+    ],
+    place: [
+      { source:"TwinSpires Edge", expert:"V. Hanson",
+        horses:[{tag:'place',name:'#1 Dornoch Lad'},{tag:'place',name:'#2 Capri Sun'},{tag:'place',name:'#5 Emerald Isle'}],
+        detail:"Top three in the turf race. All three trained by championship-caliber barns (Pletcher, Brown, Cox) who are firing at 100% during Derby week. Excellent place betting race.",
+        combo:null },
+    ],
+    show: [
+      { source:"Covers.com", expert:"R. Criscola",
+        horses:[{tag:'show',name:'#4 Danube Blue (+600)'},{tag:'show',name:'#3 Riviera Moon (+500)'},{tag:'show',name:'#2 Capri Sun'}],
+        detail:"Danube Blue (European import, Dubawi sire) is a live outsider — European turf form translates at this distance. Riviera Moon (McGaughey) likes to be on the lead and Churchill is his home track.",
+        combo:null },
+    ],
+    exacta: [
+      { source:"TwinSpires / BRISnet", expert:"J. Mucciolo", featured:true,
+        horses:[{tag:'win',name:'#1 Dornoch Lad'},{tag:'win',name:'#2 Capri Sun'},{tag:'place',name:'#5 Emerald Isle'},{tag:'place',name:'#3 Riviera Moon'}],
+        detail:"Box the top four. Turf races often produce logical results — Dornoch Lad and Capri Sun are the best horses, but Emerald Isle and Riviera Moon are capable of upsetting. Four-horse box gives full coverage.",
+        combo:{label:'$2 Exacta box',desc:'#1, #2, #3, #5 (4 horses)',cost:'$24'} },
+      { source:"Covers.com", expert:"R. Criscola",
+        horses:[{tag:'win',name:'#2 Capri Sun'},{tag:'place',name:'#1 Dornoch Lad'},{tag:'place',name:'#5 Emerald Isle'}],
+        detail:"Capri Sun on top (Brown/Prat are unstoppable on turf this meet), Dornoch Lad and Emerald Isle for 2nd. Straight exacta with Capri Sun over Dornoch Lad is the highest-probability outcome.",
+        combo:{label:'$2 Exacta',desc:'#2 / #1, #5',cost:'$4'} },
+    ],
+    trifecta: [
+      { source:"TwinSpires / BRISnet", expert:"V. Hanson", featured:true,
+        horses:[{tag:'win',name:'#1 Dornoch Lad'},{tag:'win',name:'#2 Capri Sun'},{tag:'place',name:'#3 Riviera Moon'},{tag:'place',name:'#5 Emerald Isle'},{tag:'show',name:'#4 Danube Blue'},{tag:'show',name:'#6 Sunlit Path'}],
+        detail:"Two-horse key on top (Dornoch Lad, Capri Sun), four underneath. Danube Blue at 6-1 is the value show inclusion — European turf form at this distance is legitimate. Sunlit Path at 10-1 needs the pace.",
+        combo:{label:'$0.50 Trifecta',desc:'#1, #2 / #1, #2, #3, #5 / #1, #2, #3, #4, #5, #6',cost:'$20'} },
+      { source:"Today's Racing Digest", expert:"TRD Analysis",
+        horses:[{tag:'win',name:'#5 Emerald Isle'},{tag:'place',name:'#1 Dornoch Lad'},{tag:'place',name:'#2 Capri Sun'},{tag:'show',name:'#3 Riviera Moon'},{tag:'show',name:'#4 Danube Blue'}],
+        detail:"Emerald Isle on top at 4-1 price creates value. Turf Classic winner (Dornoch Lad) and Chad Brown's closer (Capri Sun) underneath. This trifecta pays significantly more than Dornoch Lad winning.",
+        combo:{label:'$1 Trifecta',desc:'#5 / #1, #2 / #1, #2, #3, #4',cost:'$6'} },
+    ],
+    superfecta: [
+      { source:"TwinSpires / BRISnet", expert:"J. Mucciolo",
+        horses:[{tag:'win',name:'#1 Dornoch Lad'},{tag:'place',name:'#2 Capri Sun'},{tag:'show',name:'#5 Emerald Isle'},{tag:'show',name:'#3 Riviera Moon'},{tag:'value',name:'#4 Danube Blue'},{tag:'value',name:'#7 Pacific Rim'}],
+        detail:"Turf superfectas can pay huge — include all six in a structured ticket. Pacific Rim (Mott barn) at 12-1 is worth including in the 4th spot. Frankel sire (Capri Sun) gives the best late kick in the field.",
+        combo:{label:'$0.10 Superfecta',desc:'#1 / #2, #5 / #1, #2, #3, #5 / #1, #2, #3, #4, #5, #7',cost:'$6'} },
+    ],
+    value: [
+      { source:"TwinSpires Edge", expert:"J. Keeler Johnson",
+        horses:[{tag:'value',name:'#4 Danube Blue (+600)'},{tag:'value',name:'#6 Sunlit Path (+1000)'}],
+        detail:"Danube Blue is the standout value play — Dubawi sire is elite at this distance on American turf, European form placed at Grade 2 Sandown level. At 6-1 he's being overlooked. Sunlit Path (Justify, 10-1) fits the distance profile if the pace is honest." },
+      { source:"Today's Racing Digest", expert:"TRD",
+        horses:[{tag:'value',name:'#8 Desert Wind (+2000)'}],
+        detail:"Desert Wind at 20-1 is purely speculative — War Front sire is an excellent American turf influence. If you're building a deep superfecta or trifecta, include him in the 4th/3rd spots only." },
+    ],
+  },
+
+  12: {
+    label: "Race 12 · 152nd Kentucky Derby (G1) · 1¼ Miles Dirt · $5M purse",
+    win: [
+      { source:"Covers.com", expert:"R. Criscola", featured:true,
+        horses:[{tag:'win',name:'#6 Commandment (5-1)'}],
+        detail:"Best bet: Commandment. Won 4 straight including G1 Florida Derby. Into Mischief x Sippican Harbor (by Orb, 2013 Derby winner) — two Derby-winning bloodlines. Only horse with multiple Beyer 100+ figures. Brad Cox. Adjusting post 6 gets him perfect stalking position.",
+        combo:null },
+      { source:"CBS Sports / SportsLine", expert:"G. Menez",
+        horses:[{tag:'win',name:'#12 Chief Wallabee (7-1)'}],
+        detail:"Same Mott/Alvarado combo that won 2025 Derby. New blinkers. Constitution sire (Tapit-line) is ideal for 1¼m. Menez: 'If the blinkers make even a little difference, Chief Wallabee is a major player — the post draw was perfect.'",
+        combo:null },
+      { source:"CBS Sports / SportsLine", expert:"J. Demling",
+        horses:[{tag:'win',name:'#15 Emerging Market (9-1)'}],
+        detail:"Undefeated in 2 starts. Won Louisiana Derby with 102 BRIS. Chad Brown / Flavien Prat combo. Candy Ride (ARG) sire stays the distance. Demling: 'This horse could be a freak.' Inexperience is the only knock.",
+        combo:null },
+      { source:"Today's Racing Digest", expert:"TRD Analysis",
+        horses:[{tag:'win',name:'#18 Further Ado (6-1)'}],
+        detail:"Further Ado leads the field with a 156 Final Time Rating — historically 8 of last 10 Derby winners hit the trifecta with top Final Time Ratings. Field-best Beyer 106. Gun Runner sire (3rd in 2016 Derby). John Velazquez is a 3-time Derby winner.",
+        combo:null },
+      { source:"KentuckyDerby.com", expert:"K. Benson",
+        horses:[{tag:'win',name:'#6 Commandment (5-1)'}],
+        detail:"Commandment is Benson's top pick. Won the Florida Derby — which has produced 26 Derby winners historically. Expert: 'He's the horse to beat. No weaknesses in terms of running style or pedigree.'",
+        combo:null },
+      { source:"KentuckyDerby.com", expert:"V. Hanson",
+        horses:[{tag:'win',name:'#1 Renegade (5-1)'}],
+        detail:"Renegade is Hanson's pick despite the difficult Post 1. Arkansas Derby win was visually spectacular — closed the final furlong in 11.84 seconds. Into Mischief x Curlin dam = elite stamina combo.",
+        combo:null },
+    ],
+    place: [
+      { source:"Covers.com", expert:"R. Criscola",
+        horses:[{tag:'win',name:'#6 Commandment'},{tag:'place',name:'#12 Chief Wallabee'},{tag:'place',name:'#18 Further Ado'}],
+        detail:"Place bet the top three horses at prices: Commandment (5-1), Chief Wallabee (7-1), Further Ado (6-1). All three have elite pedigrees and connections. If any one of them runs 2nd or better, you cash.",
+        combo:null },
+      { source:"TwinSpires Edge", expert:"J. Keeler Johnson",
+        horses:[{tag:'place',name:'#6 Commandment'},{tag:'place',name:'#8 So Happy'},{tag:'place',name:'#18 Further Ado'},{tag:'place',name:'#12 Chief Wallabee'}],
+        detail:"Four horses who are highly likely to run in the top 3: Commandment (5-1), So Happy (5-1), Further Ado (6-1), Chief Wallabee (7-1). Place bets on all four spread across two tickets give strong coverage.",
+        combo:null },
+    ],
+    show: [
+      { source:"Covers.com", expert:"R. Criscola", featured:true,
+        horses:[{tag:'show',name:'#12 Chief Wallabee (7-1)'}],
+        detail:"Chief Wallabee is Criscola's show pick. All 3 career starts in the money. 2025 Derby connections (Mott/Alvarado). New blinkers. Even if he doesn't win, he has the disposition and tactical profile to run 3rd in a big field. Best show value in the race.",
+        combo:null },
+      { source:"TwinSpires Edge", expert:"V. Hanson",
+        horses:[{tag:'show',name:'#19 Golden Tempo (25-1)'},{tag:'show',name:'#15 Emerging Market'}],
+        detail:"Golden Tempo at 25-1 is a tremendous show value — ascending BRIS figures (84→100) and Curlin sire at peak form. Include him in every show parlay and exotic. Emerging Market at 9-1 is the other live show inclusion — Brown horses always run their best in big spots.",
+        combo:null },
+    ],
+    exacta: [
+      { source:"Covers.com", expert:"R. Criscola", featured:true,
+        horses:[{tag:'win',name:'#6 Commandment'},{tag:'win',name:'#7 Danon Bourbon'},{tag:'win',name:'#12 Chief Wallabee'},{tag:'place',name:'#15 Emerging Market'},{tag:'place',name:'#18 Further Ado'}],
+        detail:"Box the top three (Commandment, Danon Bourbon, Chief Wallabee) for the base exacta ($12 for $2). Also add a second ticket keying Commandment over Emerging Market and Further Ado for added coverage.",
+        combo:{label:'$2 Exacta box + key',desc:'Box #6,#7,#12 ($12) + #6 / #15,#18 ($4)',cost:'$16 total'} },
+      { source:"KentuckyDerby.com", expert:"J. Kristufek",
+        horses:[{tag:'win',name:'#12 Chief Wallabee'},{tag:'win',name:'#15 Emerging Market'},{tag:'win',name:'#6 Commandment'},{tag:'place',name:'#11 Incredibolt'}],
+        detail:"Kristufek keys Chief Wallabee and Emerging Market. Also adds Incredibolt as a live part underneath — Virginia Derby winner with perfect Churchill record (2-2) who could steal a board position.",
+        combo:{label:'$2 Exacta part-wheel',desc:'#12, #15 / #6, #11, #12, #15',cost:'$12'} },
+      { source:"Today's Racing Digest", expert:"TRD",
+        horses:[{tag:'win',name:'#18 Further Ado'},{tag:'place',name:'#6 Commandment'},{tag:'place',name:'#12 Chief Wallabee'},{tag:'place',name:'#15 Emerging Market'}],
+        detail:"Further Ado on top (field-best Fire Number 106, Final Time Rating 156). Three horses who could beat him for 2nd: Commandment, Chief Wallabee, Emerging Market. TRD historically backs the top Final Time Rating horse.",
+        combo:{label:'$2 Exacta',desc:'#18 / #6, #12, #15',cost:'$6'} },
+    ],
+    trifecta: [
+      { source:"Covers.com", expert:"R. Criscola", featured:true,
+        horses:[{tag:'win',name:'#6 Commandment'},{tag:'win',name:'#7 Danon Bourbon'},{tag:'win',name:'#12 Chief Wallabee'},{tag:'place',name:'#15 Emerging Market'},{tag:'place',name:'#18 Further Ado'},{tag:'show',name:'#8 So Happy'},{tag:'show',name:'#19 Golden Tempo'}],
+        detail:"Trifecta A: Box #6, #7, #12 (6 combos × $1 = $6). Trifecta B: Key #6 Commandment on top / #7, #12 for 2nd / #7, #12, #15, #18 for 3rd. Trifecta C: Key So Happy on top / Commandment, Chief Wallabee / Emerging Market, Further Ado, Golden Tempo.",
+        combo:{label:'$1 Tri A + $0.50 Tri B',desc:'Box #6,#7,#12 ($6) + #6/#7,#12/#7,#12,#15,#18 ($4)',cost:'$10 total'} },
+      { source:"TwinSpires / BRISnet", expert:"J. Mucciolo",
+        horses:[{tag:'win',name:'#8 So Happy'},{tag:'win',name:'#18 Further Ado'},{tag:'place',name:'#6 Commandment'},{tag:'place',name:'#12 Chief Wallabee'},{tag:'show',name:'#1 Renegade'},{tag:'show',name:'#7 Danon Bourbon'},{tag:'show',name:'#15 Emerging Market'},{tag:'show',name:'#19 Golden Tempo'}],
+        detail:"Mucciolo keys So Happy on top (Santa Anita Derby G1 winner) with Further Ado as 2nd option. Uses a wide spread of 4 horses in 3rd including Golden Tempo (his favorite longshot). Two trifecta structures: A) So Happy on top, B) Further Ado on top.",
+        combo:{label:'$0.50 Trifecta',desc:'#8, #18 / #6, #8, #12, #18 / #1, #6, #7, #12, #15, #19',cost:'$24'} },
+      { source:"Today's Racing Digest", expert:"TRD",
+        horses:[{tag:'win',name:'#18 Further Ado'},{tag:'place',name:'#6 Commandment'},{tag:'place',name:'#12 Chief Wallabee'},{tag:'show',name:'#8 So Happy'},{tag:'show',name:'#15 Emerging Market'},{tag:'show',name:'#11 Incredibolt'}],
+        detail:"TRD structures around their top Fire Number horse (Further Ado). Commandment and Chief Wallabee in 2nd. Spread So Happy, Emerging Market, and live longshot Incredibolt for 3rd. Incredibolt at 24-1 third would create a major payoff.",
+        combo:{label:'$0.50 Trifecta',desc:'#18 / #6, #12 / #8, #11, #12, #15',cost:'$6'} },
+      { source:"KentuckyDerby.com", expert:"K. Benson",
+        horses:[{tag:'win',name:'#6 Commandment'},{tag:'place',name:'#19 Golden Tempo'},{tag:'show',name:'#15 Emerging Market'},{tag:'show',name:'#4 Incredibolt'},{tag:'show',name:'#12 Chief Wallabee'}],
+        detail:"Benson uses Commandment on top with Golden Tempo (30-1) for the upset 2nd — ascending figures make him live. Emerging Market and Chief Wallabee round out the 3rd spot for a high-value trifecta.",
+        combo:{label:'$1 Trifecta',desc:'#6 / #19 / #11, #12, #15',cost:'$3'} },
+    ],
+    superfecta: [
+      { source:"Covers.com", expert:"R. Criscola", featured:true,
+        horses:[{tag:'win',name:'#6 Commandment'},{tag:'place',name:'#7 Danon Bourbon'},{tag:'place',name:'#12 Chief Wallabee'},{tag:'show',name:'#15 Emerging Market'},{tag:'show',name:'#18 Further Ado'},{tag:'value',name:'#8 So Happy'},{tag:'value',name:'#19 Golden Tempo'},{tag:'value',name:'#16 Pavlovian'}],
+        detail:"Key Commandment on top. Use Danon Bourbon and Chief Wallabee as the primary 2nd/3rd horses. Spread Emerging Market, Further Ado, So Happy, Golden Tempo, and Pavlovian in the 4th spot for a wide ticket.",
+        combo:{label:'$0.10 Superfecta',desc:'#6 / #7, #12 / #7, #8, #12, #15 / #7, #8, #12, #15, #16, #18, #19',cost:'$9.80'} },
+      { source:"TwinSpires / BRISnet", expert:"J. Mucciolo",
+        horses:[{tag:'win',name:'#8 So Happy'},{tag:'place',name:'#18 Further Ado'},{tag:'place',name:'#6 Commandment'},{tag:'show',name:'#12 Chief Wallabee'},{tag:'value',name:'#1 Renegade'},{tag:'value',name:'#7 Danon Bourbon'},{tag:'value',name:'#15 Emerging Market'},{tag:'value',name:'#19 Golden Tempo'}],
+        detail:"Mucciolo's preferred superfecta structure uses So Happy on top. Further Ado and Commandment share 2nd. Spread Chief Wallabee as the 3rd singleton, then four wild cards in 4th including Golden Tempo at 25-1.",
+        combo:{label:'$0.10 Superfecta',desc:'#8 / #6, #18 / #12 / #1, #7, #15, #19',cost:'$0.80'} },
+    ],
+    value: [
+      { source:"TwinSpires Edge", expert:"J. Keeler Johnson", featured:true,
+        horses:[{tag:'value',name:'#19 Golden Tempo (25-1)'},{tag:'value',name:'#11 Incredibolt (24-1)'}],
+        detail:"Golden Tempo is Keeler's top longshot. Ascending BRIS figures 84→88→91→100 are a powerful positive trend. Curlin sire (finished 2nd in 2007 Derby). Cherie DeVaux trainer peaking him perfectly. Include on every exotic ticket. Incredibolt: 2-2 at Churchill, Virginia Derby winner, 115 late pace figure — legitimate board horse at 24-1." },
+      { source:"Today's Racing Digest", expert:"TRD",
+        horses:[{tag:'value',name:'#12 Chief Wallabee (7-1)'},{tag:'value',name:'#15 Emerging Market (9-1)'}],
+        detail:"Chief Wallabee is the best-priced legitimate contender at 7-1 — Mott/Alvarado is the same team that won the 2025 Derby. Emerging Market at 9-1 is undervalued for an undefeated horse with 102 BRIS trained by Chad Brown." },
+      { source:"SpookyExpress", expert:"Full card",
+        horses:[{tag:'value',name:'#11 Incredibolt (24-1)'},{tag:'value',name:'#14 Potente (21-1)'}],
+        detail:"Incredibolt: Perfect 2-2 at Churchill, proved he can win on this surface. 'Win Contender at a price.' Potente: $2.4M Into Mischief colt, Baffert's horses are always dangerous, and this one was second in the Santa Anita Derby." },
+    ],
+  },
+};
+
+let currentEpRace = 12;
+let currentEpBet = 'win';
+
+function renderExpertPicks() {
+  const raceData = expertPicks[currentEpRace];
+  const betData  = raceData[currentEpBet] || [];
+  const el = document.getElementById('epContent');
+  if (!el) return;
+
+  if (!betData.length) {
+    el.innerHTML = `<div style="padding:2rem;text-align:center;font-size:13px;color:var(--ink-light);">No specific expert picks available for this bet type in this race.</div>`;
+    return;
+  }
+
+  const betLabels = {win:'Win Picks',place:'Place Picks',show:'Show Picks',exacta:'Exacta Combinations',trifecta:'Trifecta Combinations',superfecta:'Superfecta Combinations',value:'Value / Longshot Picks'};
+
+  let html = `<div class="ep-section-title">${raceData.label} · ${betLabels[currentEpBet]||''}</div>`;
+  html += `<div class="ep-picks-grid">`;
+
+  betData.forEach(pick => {
+    html += `<div class="ep-pick-card ${pick.featured?'featured':''}">
+      <div class="ep-pick-source">${pick.source}</div>
+      <div class="ep-pick-expert">${pick.expert}</div>
+      <div class="ep-horse-tags">`;
+    (pick.horses||[]).forEach(h => {
+      html += `<span class="ep-tag ${h.tag}">${h.name}</span>`;
+    });
+    html += `</div>`;
+    if (pick.combo) {
+      html += `<div class="ep-combo">
+        <div class="ep-combo-label">${pick.combo.label} <span class="ep-cost">${pick.combo.cost}</span></div>
+        <strong>${pick.combo.desc}</strong>
+      </div>`;
+    }
+    html += `<div class="ep-pick-detail">${pick.detail}</div>`;
+    html += `</div>`;
+  });
+
+  html += `</div>`;
+
+  // Consensus for race 12
+  if (currentEpRace === 12) {
+    html += `<div class="ep-consensus">
+      <h3>Expert consensus — most-mentioned horses (Race 12)</h3>
+      <div class="ep-con-grid">
+        <div class="ep-con-card" style="border-left:3px solid var(--rose)">
+          <div class="ep-con-post">Post 6</div>
+          <div class="ep-con-name">Commandment</div>
+          <div class="ep-con-odds" style="color:var(--green)">⭐ 6 mentions · 5-1</div>
+        </div>
+        <div class="ep-con-card" style="border-left:3px solid var(--gold)">
+          <div class="ep-con-post">Post 12</div>
+          <div class="ep-con-name">Chief Wallabee</div>
+          <div class="ep-con-odds" style="color:var(--green)">⭐ 5 mentions · 7-1</div>
+        </div>
+        <div class="ep-con-card" style="border-left:3px solid var(--blue)">
+          <div class="ep-con-post">Post 18</div>
+          <div class="ep-con-name">Further Ado</div>
+          <div class="ep-con-odds" style="color:var(--ink-mid)">4 mentions · 6-1</div>
+        </div>
+        <div class="ep-con-card">
+          <div class="ep-con-post">Post 15</div>
+          <div class="ep-con-name">Emerging Market</div>
+          <div class="ep-con-odds" style="color:var(--ink-mid)">4 mentions · 9-1</div>
+        </div>
+        <div class="ep-con-card">
+          <div class="ep-con-post">Post 8</div>
+          <div class="ep-con-name">So Happy</div>
+          <div class="ep-con-odds" style="color:var(--ink-mid)">3 mentions · 5-1</div>
+        </div>
+        <div class="ep-con-card">
+          <div class="ep-con-post">Post 19</div>
+          <div class="ep-con-name">Golden Tempo</div>
+          <div class="ep-con-odds" style="color:var(--ink-light)">3 mentions · 25-1</div>
+        </div>
+        <div class="ep-con-card">
+          <div class="ep-con-post">Post 11</div>
+          <div class="ep-con-name">Incredibolt</div>
+          <div class="ep-con-odds" style="color:var(--ink-light)">2 mentions · 24-1</div>
+        </div>
+        <div class="ep-con-card">
+          <div class="ep-con-post">Post 1</div>
+          <div class="ep-con-name">Renegade</div>
+          <div class="ep-con-odds" style="color:var(--ink-light)">2 mentions · 5-1</div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  el.innerHTML = html;
+}
+
+function selectExpertRace(num, btn) {
+  currentEpRace = num;
+  document.querySelectorAll('.ep-race-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderExpertPicks();
+}
+
+function selectExpertBet(type, btn) {
+  currentEpBet = type;
+  document.querySelectorAll('.ep-bet-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderExpertPicks();
+}
+
+
+function toggleStats(panelId, btnId) {
+  const panel = document.getElementById(panelId);
+  const btn   = document.getElementById(btnId);
+  if (!panel || !btn) return;
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  btn.querySelector('span:first-child').textContent = isOpen ? '📊 View handicapping stats' : '📊 Hide handicapping stats';
+}
+
+// ─────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────
+renderRace(9);
+updateSlipCounts();
+// Hide Daily Double for Race 9 (only valid from Race 11+)
+document.querySelectorAll('#betTypeBar .bet-type-btn').forEach(b => {
+  if (b.textContent.trim() === 'Daily Double') b.style.display = 'none';
+});
+
+</script>
+</body>
+</html>
